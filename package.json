@@ -1,0 +1,23 @@
+{
+  "name": "smus",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/degenerats/smus.git"
+  },
+  "author": "Artem Ravbetsky - ravbetsky@gmail.com",
+  "license": "MIT",
+  "homepage": "https://github.com/degenerats/smus#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "postcss": "^5.0.21"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "cssnano": "^3.5.2",
+    "gulp-postcss": "^6.1.1",
+    "gulp-watch": "^4.3.5",
+    "precss": "^1.4.0"
+  }
+}

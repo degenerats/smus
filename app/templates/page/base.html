@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %} СМУС - демо {% endblock %}</title>
+  {% load pipeline %}
+  {% javascript 'bower' %}
+  {% stylesheet 'bower' %}
+  {% stylesheet 'custom' %}
+</head>
+<body>
+  <header role="header">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            Система мониторинга успеваемости студентов
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Главная</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Отчеты<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Студент ФИО</a></li>
+                <li><a href="#">Группа</a></li>
+                <li><a href="#">Курс</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Бакалавриат</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Магистратура</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Добавить<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Посещаемость</a></li>
+                <li><a href="#">Экзамены</a></li>
+                <li><a href="#">Зачеты</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Дипломная работа</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Курсовая работа</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Помощь</a></li>
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Поиск">
+              </div>
+              <button type="submit" class="btn btn-default">Поиск</button>
+            </form>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        {% block content %}
+          <h1>Hello World!</h1>
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+  <footer class="footer" role="footer">
+    <div class="container">
+      <a href="#" class="pull-right">ravbetsky@ulsu.ru</a>
+      <p class="text-muted pull-left">Система мониторинга успеваемости и посещаемости студентов. УлГУ, Кафедра "ММТС", 2016 г.</p>
+    </div>
+  </footer>
+</body>
+</html>
