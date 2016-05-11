@@ -1,8 +1,7 @@
 *.pyc
 local_settings.py
-/app/static/bower_components/
+/static/bower_components/
 .DS_Store
-/static/
 /node_modules/
 docker-compose.yml
 Dockerfile

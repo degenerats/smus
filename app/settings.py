@@ -120,7 +120,8 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+PIPELINE_STORAGE = 'pipeline.storage.PipelineFinderStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -129,6 +130,7 @@ STATICFILES_FINDERS = (
 )
 
 PIPELINE = {
+    # 'PIPELINE_ENABLED': True,
     'STYLESHEETS': {
         'bower': {
             'source_filenames': (
@@ -138,7 +140,7 @@ PIPELINE = {
         },
         'custom': {
             'source_filenames': (
-              'css/components/*.css',
+              'css/components/**/*.css',
             ),
             'output_filename': 'css/styles.css',
         },
