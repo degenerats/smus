@@ -135,6 +135,7 @@ PIPELINE = {
         'bower': {
             'source_filenames': (
               'bower_components/bootstrap/dist/css/bootstrap.css',
+              'bower_components/bootstrap-select/dist/css/bootstrap-select.css',
             ),
             'output_filename': 'css/libs.css',
         },
@@ -150,6 +151,7 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/jquery/dist/jquery.js',
               'bower_components/bootstrap/dist/js/bootstrap.js',
+              'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
             ),
             'output_filename': 'js/libs.js',
         }
