@@ -11,7 +11,7 @@
 <body>
   <header role="header">
     <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">
             Система мониторинга успеваемости студентов
@@ -59,17 +59,28 @@
       </div>
     </nav>
   </header>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        {% block content %}
-          <h1>Hello World!</h1>
+  <nav role="breadcrumbs">
+    <div class="container-fluid">
+      <ol class="breadcrumb">
+        {% block breadcrumbs %}
+          <li class="active">Главная</li>
         {% endblock %}
+      </ol>
+    </div>
+  </nav>
+  <article role="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          {% block content %}
+            <h1>Hello world!</h1>
+          {% endblock %}
+        </div>
       </div>
     </div>
-  </div>
+  </article>
   <footer class="footer" role="footer">
-    <div class="container">
+    <div class="container-fluid">
       <a href="#" class="pull-right">ravbetsky@ulsu.ru</a>
       <p class="text-muted pull-left">Система мониторинга успеваемости и посещаемости студентов. УлГУ, Кафедра "ММТС", 2016 г.</p>
     </div>

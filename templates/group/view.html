@@ -2,6 +2,13 @@
 
 {% block title %} МОТС-11 {% endblock %}
 
+{% block breadcrumbs %}
+  <li><a href="#">Главная</a></li>
+  <li><a href="#">Бакалавры</a></li>
+  <li><a href="#">Математическиое моделирование организацонно-технических систем</a></li>
+  <li class="active">МОТС-11</li>
+{% endblock %}
+
 {% block content %}
   <h1 class="page-header">МОТС-11</h1>
   <div class="group-view">
@@ -19,6 +26,17 @@
         <div class="content-attendance">
           <div class="top-controls">
             <div class="row">
+              <div class="col-md-12">
+                <form>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"> Показывать только % пропусков
+                    </label>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-4">
                 <div class="sort-by">
                   <div class="form-group">
@@ -32,36 +50,552 @@
               </div>
               <div class="col-md-5">
                 <div class="filter-by">
-                  <div class="form-group">
-                    <label for="sort">Сортировать по</label>
-                    <select class="selectpicker">
-                      <option>Mustard</option>
-                      <option>Ketchup</option>
-                      <option>Relish</option>
-                    </select>
-                  </div>
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <label>Семестр</label>
+                      <select class="selectpicker">
+                        <option>1 семестр</option>
+                        <option>2 семестр</option>
+                        <option>3 семестр</option>
+                        <option>4 семестр</option>
+                        <option>5 семестр</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="subject">Предмет</label>
+                        <input type="email" class="form-control" id="subject" placeholder="Название предмета">
+                      </div>
+                      <button type="submit" class="btn btn-default">Поиск</button>
+                    </div>
+                  </form>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="date-by">
-                  <div class="form-group">
-                    <label for="sort">Сортировать по</label>
-                    <select class="selectpicker">
-                      <option>Mustard</option>
-                      <option>Ketchup</option>
-                      <option>Relish</option>
-                    </select>
-                  </div>
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <div class="input-group date" data-provide="datepicker">
+                          <input type="text" id="from_date" class="form-control" placeholder="C">
+                          <div class="input-group-addon">
+                              <span class="glyphicon glyphicon-th"></span>
+                          </div>
+                      </div>
+                    </div>
+                    <span class="divider">-</span>
+                    <div class="form-group">
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" id="to_date" class="form-control" placeholder="По">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-          <div class="main-table"></div>
+          <div class="main-table">
+            <table data-toggle="table"
+                >
+                <thead>
+                  <tr>
+                      <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
+                      <th data-field="subject_1" colspan="10">Философия</th>
+                      <th data-field="subject_2" colspan="10">ФОПФ</th>
+                      <th data-field="subject_3" colspan="10">Правоведение</th>
+                      <th data-field="subject_4" colspan="10">Графическое моделирование</th>
+                      <th data-field="subject_5" colspan="10">Методы исследования эффективности функционирования ОТС</th>
+                      <th data-field="subject_6" colspan="10">Физвоспитание</th>
+                      <th data-field="subject_7" colspan="10">СММ</th>
+                      <th data-field="subject_8" colspan="10">Аэрогидродинамика и динамика машин</th>
+                      <th data-field="subject_9" colspan="10">Нем. язык. и Англ. Язык</th>
+                  </tr>
+                  <tr>
+                    <th>Дата 1</th>
+                    <th>Дата 2</th>
+                    <th>Дата 3</th>
+                    <th>Дата 4</th>
+                    <th>Дата 5</th>
+                    <th>Дата 6</th>
+                    <th>Дата 7</th>
+                    <th>Дата 8</th>
+                    <th>Дата 9</th>
+                    <th>%</th>
+                    <th>Дата 11</th>
+                    <th>Дата 12</th>
+                    <th>Дата 13</th>
+                    <th>Дата 14</th>
+                    <th>Дата 15</th>
+                    <th>Дата 16</th>
+                    <th>Дата 17</th>
+                    <th>Дата 18</th>
+                    <th>Дата 19</th>
+                    <th>%</th>
+                    <th>Дата 21</th>
+                    <th>Дата 22</th>
+                    <th>Дата 23</th>
+                    <th>Дата 24</th>
+                    <th>Дата 25</th>
+                    <th>Дата 26</th>
+                    <th>Дата 27</th>
+                    <th>Дата 28</th>
+                    <th>Дата 29</th>
+                    <th>%</th>
+                    <th>Дата 31</th>
+                    <th>Дата 32</th>
+                    <th>Дата 33</th>
+                    <th>Дата 34</th>
+                    <th>Дата 35</th>
+                    <th>Дата 36</th>
+                    <th>Дата 37</th>
+                    <th>Дата 38</th>
+                    <th>Дата 39</th>
+                    <th>%</th>
+                    <th>Дата 41</th>
+                    <th>Дата 42</th>
+                    <th>Дата 43</th>
+                    <th>Дата 44</th>
+                    <th>Дата 45</th>
+                    <th>Дата 46</th>
+                    <th>Дата 47</th>
+                    <th>Дата 48</th>
+                    <th>Дата 49</th>
+                    <th>%</th>
+                    <th>Дата 51</th>
+                    <th>Дата 52</th>
+                    <th>Дата 53</th>
+                    <th>Дата 54</th>
+                    <th>Дата 55</th>
+                    <th>Дата 56</th>
+                    <th>Дата 57</th>
+                    <th>Дата 58</th>
+                    <th>Дата 59</th>
+                    <th>%</th>
+                    <th>Дата 61</th>
+                    <th>Дата 62</th>
+                    <th>Дата 63</th>
+                    <th>Дата 64</th>
+                    <th>Дата 65</th>
+                    <th>Дата 66</th>
+                    <th>Дата 67</th>
+                    <th>Дата 68</th>
+                    <th>Дата 69</th>
+                    <th>%</th>
+                    <th>Дата 71</th>
+                    <th>Дата 72</th>
+                    <th>Дата 73</th>
+                    <th>Дата 74</th>
+                    <th>Дата 75</th>
+                    <th>Дата 76</th>
+                    <th>Дата 77</th>
+                    <th>Дата 78</th>
+                    <th>Дата 79</th>
+                    <th>%</th>
+                    <th>Дата 81</th>
+                    <th>Дата 82</th>
+                    <th>Дата 83</th>
+                    <th>Дата 84</th>
+                    <th>Дата 85</th>
+                    <th>Дата 86</th>
+                    <th>Дата 87</th>
+                    <th>Дата 88</th>
+                    <th>Дата 89</th>
+                    <th>%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td>
+                          Мякинин Кирилл
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Корягина Екатерина
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Коршунов Владимир
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Корягина Екатерина
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+
+                </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <div role="tabpanel" class="tab-pane" id="progress">...</div>
+      <!-- <div role="tabpanel" class="tab-pane" id="progress">...</div>
       <div role="tabpanel" class="tab-pane" id="coursework">...</div>
-      <div role="tabpanel" class="tab-pane" id="graduatework">...</div>
+      <div role="tabpanel" class="tab-pane" id="graduatework">...</div> -->
     </div>
   </div>
 {% endblock %}

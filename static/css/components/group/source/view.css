@@ -8,3 +8,31 @@
     }
   }
 }
+
+/*Верхние фильтры*/
+.top-controls {
+  .form-group, .checkbox {
+    margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+  .filter-by {
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+      width: 110px;
+    }
+  }
+  .date-by {
+    text-align: right;
+    .divider {
+      width: 20px;
+      text-align: center;
+      display: inline-block;
+      position: relative;
+      left: 5px;
+    }
+  }
+  .date {
+    width: 140px;
+  }
+}
