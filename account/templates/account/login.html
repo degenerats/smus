@@ -4,6 +4,10 @@
 
 {% block breadcrumbs %}{% endblock %}
 
+{% block auth %}
+  <p class="navbar-text navbar-right">Вы не авторизованы</p>
+{% endblock %}
+
 {% block messages %}
   {% for error in form.non_field_errors %}
   <div class="alert alert-danger" role="alert">{{error}}</div>
@@ -11,9 +15,9 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Авторизация</h1>
   <div class="account-login">
     <form class="form" action="{% url 'account:login' %}" method='post'>
+      <legend>Авторизация</legend>
       {% csrf_token %}
       <div class="form-group">
         <label for="">Пользователь</label>
