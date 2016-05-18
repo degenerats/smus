@@ -6,6 +6,7 @@ from models import *
 
 class StudentInline(admin.TabularInline):
     model = Student
+    extra = 0
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
@@ -17,5 +18,15 @@ class StudentAdmin(admin.ModelAdmin):
     list_display = ['full_name', 'group']
 
 
+class SubjectAdmin(admin.ModelAdmin):
+    list_display = ['name', 'staff']
+
+
+class StaffAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'position']
+
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentGroup, StudentGroupAdmin)
+admin.site.register(Subject, SubjectAdmin)
+admin.site.register(Staff, StaffAdmin)
