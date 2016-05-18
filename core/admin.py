@@ -9,6 +9,11 @@ class StudentInline(admin.TabularInline):
     extra = 0
 
 
+class SubjectInline(admin.TabularInline):
+    model = SemesterSubject
+    extra = 0
+
+
 class StudentGroupAdmin(admin.ModelAdmin):
     list_display = ['name']
     inlines = StudentInline,
@@ -30,8 +35,14 @@ class SpecialityAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
+class SemesterAdmin(admin.ModelAdmin):
+    list_display = ['start', 'end', 'group']
+    inlines = SubjectInline,
+
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentGroup, StudentGroupAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(Speciality, SpecialityAdmin)
+admin.site.register(Semester, SemesterAdmin)

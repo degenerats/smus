@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="page-header">МОТС-11</h1>
+  <h1 class="page-header">{{ object.name }}</h1>
   <div class="group-view">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -98,43 +98,35 @@
             </div>
           </div>
           <div class="main-table">
-            <table data-toggle="table"
-                >
+            {% for item in data %}
+            <table data-toggle="table">
                 <thead>
                   <tr>
                       <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
-                      <th data-field="subject_4" colspan="10">Графическое моделирование</th>
+                      <th data-field="subject_4" colspan="10">{{ item.subject.subject.name }}</th>
                   </tr>
                   <tr>
-                    <th>10.10.2015</th>
-                    <th>15.10.2015</th>
-                    <th>18.10.2015</th>
-                    <th>21.10.2015</th>
-                    <th>25.10.2015</th>
-                    <th>30.10.2015</th>
-                    <th>1.11.2015</th>
-                    <th>5.11.2015</th>
+                    {% for lesson in item.lessons %}
+                    <th>{{ lesson.date|date:"d.m.Y" }}</th>
+                    {% endfor %}
                     <th>%</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for student in item.students %}
                   <tr>
                       <td>
-                          Мякинин Кирилл
+                          {{ student.student.last_name }} {{ student.student.first_name }}
                       </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      {% for attendance in student.attendance %}
+                      <td>{% if attendance %}+{% else %}-{% endif %}</td>
+                      {% endfor %}
                       <td></td>
                   </tr>
-
+                  {% endfor %}
                 </tbody>
             </table>
+            {% endfor %}
           </div>
         </div>
       </div>

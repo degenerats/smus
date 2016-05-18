@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from . import views
+from views import GroupView
 
 urlpatterns = [
-    url(r'^$', views.group, name='group'),
+    url(r'^group/(?P<pk>\d+)/$', GroupView.as_view(), name='group'),
 ]

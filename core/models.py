@@ -1,7 +1,40 @@
 # -*- coding:utf-8 -*-
 from __future__ import unicode_literals
+import datetime
 
 from django.db import models
+from django.apps import apps
+
+
+class SemesterSubject(models.Model):
+    EXAM_TYPES = (
+        ('exam', u'Экзамен'),
+        ('credit', u'Зачёт'),
+    )
+
+    semester = models.ForeignKey('Semester', related_name='subjects')
+    subject = models.ForeignKey('Subject', verbose_name=u'дисциплина')
+    subject_type = models.CharField(u'тип экзамена', choices=EXAM_TYPES, max_length=20)
+
+    def __unicode__(self):
+        return '%s, %s' % (self.semester, self.subject)
+
+    class Meta:
+        verbose_name = u'экзамен'
+        verbose_name_plural = u'экзамены'
+
+
+class Semester(models.Model):
+    start = models.DateField(u'начало семестра')
+    end = models.DateField(u'конец семестра')
+    group = models.ForeignKey('StudentGroup', verbose_name=u'группа')
+
+    def __unicode__(self):
+        return '%s - %s, %s' % (self.start, self.end, self.group)
+
+    class Meta:
+        verbose_name = u'семестр'
+        verbose_name_plural = u'семестры'
 
 
 class Speciality(models.Model):
@@ -21,8 +54,19 @@ class Speciality(models.Model):
         verbose_name_plural = u'специальности'
 
 
-class StudentGroup(models.Model):
+class Subject(models.Model):
+    name = models.CharField(u'название', max_length=100)
+    staff = models.ForeignKey('Staff', verbose_name='преподаватель')
 
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = u'дисциплина'
+        verbose_name_plural = u'дисциплины'
+
+
+class StudentGroup(models.Model):
     speciality = models.ForeignKey(Speciality, verbose_name=u'специальность')
     index = models.PositiveSmallIntegerField(u'индекс')
     start_year = models.PositiveIntegerField(u'год поступления')
@@ -35,8 +79,61 @@ class StudentGroup(models.Model):
     def course(self):
         return 1
 
+    @property
+    def current_semester(self):
+        current_semester = Semester.objects.filter(
+            group=self,
+            start__lt=datetime.datetime.now(),
+            end__gt=datetime.datetime.now()
+        )
+        if current_semester:
+            return current_semester[0]
+        else:
+            last_semester = Semester.objects.filter(group=self).last()
+            if last_semester:
+                return last_semester
+            else:
+                return None
+
+    def get_subjects(self, semester):
+        if semester is None:
+            return []
+        return semester.subjects.all()
+
+    def get_table_data(self, semester):
+        Attendance = apps.get_model('attendance', 'attendance')
+        if semester is None:
+            semester = self.current_semester()
+            if semester is None:
+                return []
+
+        subjects = self.get_subjects(semester)
+        data = []
+        for subject in subjects:
+            lessons = subject.lessons.all()
+            students = []
+            for student in self.students.all():
+                attendance = []
+                for lesson in lessons:
+                    a, created = Attendance.objects.get_or_create(
+                        lesson=lesson,
+                        student=student
+                    )
+                    attendance.append(a.attended)
+
+                students.append({
+                    'student': student,
+                    'attendance': attendance
+                })
+            data.append({
+                'subject': subject,
+                'lessons': lessons,
+                'students': students
+            })
+        return data
+
     def __unicode__(self):
-        return u'%s-%s' % (self.name, self.course)
+        return u'%s' % self.name
 
     class Meta:
         verbose_name = u'группа'
@@ -77,21 +174,3 @@ class Staff(models.Model):
     class Meta:
         verbose_name = u'преподаватель'
         verbose_name_plural = u'преподаватели'
-
-
-class Subject(models.Model):
-    SUBJECT_TYPES = (
-        ('exam', u'Экзамен'),
-        ('credit', u'Зачёт'),
-    )
-
-    name = models.CharField(u'название', max_length=100)
-    subject_type = models.CharField(u'тип экзамена', choices=SUBJECT_TYPES, max_length=20)
-    staff = models.ForeignKey(Staff, verbose_name='преподаватель')
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = u'дисциплина'
-        verbose_name_plural = u'дисциплины'

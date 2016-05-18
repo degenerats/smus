@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.db import models
 
-from core.models import Subject, Student, StudentGroup
+from core.models import SemesterSubject, Student, StudentGroup
 
 
 class Attendance(models.Model):
@@ -18,7 +18,7 @@ class Attendance(models.Model):
 
 
 class Lesson(models.Model):
-    subject = models.ForeignKey(Subject, verbose_name=u'предмет')
+    subject = models.ForeignKey(SemesterSubject, verbose_name=u'предмет', related_name='lessons')
     date = models.DateField(verbose_name=u'дата')
     group = models.ForeignKey(StudentGroup, verbose_name=u'группа')
 
