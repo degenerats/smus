@@ -15,7 +15,7 @@ class LoginView(FormView):
     """
     Provides the ability to login as a user with a username and password
     """
-    success_url = '/home/'
+    success_url = '/'
     template_name = 'account/login.html'
     form_class = AuthenticationForm
     redirect_field_name = REDIRECT_FIELD_NAME
@@ -38,12 +38,12 @@ class LoginView(FormView):
             self.request.session.delete_test_cookie()
 
         return super(LoginView, self).form_valid(form)
-
-    def get_success_url(self):
-        redirect_to = self.request.REQUEST.get(self.redirect_field_name)
-        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
-            redirect_to = self.success_url
-        return redirect_to
+    #
+    # def get_success_url(self):
+    #     redirect_to = self.request.REQUEST.get(self.redirect_field_name)
+    #     if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+    #         redirect_to = self.success_url
+    #     return redirect_to
 
 
 class LogoutView(RedirectView):
