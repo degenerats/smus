@@ -1,0 +1,7 @@
+.account-login {
+  width: 330px;
+  margin: 0 auto;
+  .btn-primary {
+    float: right;
+  }
+}

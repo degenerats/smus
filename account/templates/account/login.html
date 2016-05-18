@@ -1,0 +1,32 @@
+{% extends 'page/base.html' %}
+
+{% block title %} Авторизация {% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block messages %}
+  {% for error in form.non_field_errors %}
+      {{error}}
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+  <h1>Авторизация</h1>
+  <div class="account-login">
+    <form class="form" action="{% url 'account:login' %}" method='post'>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="">Пользователь</label>
+        <input type="text" class="form-control" name="username" />
+      </div>
+      <div class="form-group">
+        <label for="">Пароль</label>
+        <input type="password" class="form-control" name="password" />
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <a href="#">Как получить доступ?</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
