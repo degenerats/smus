@@ -26,7 +26,12 @@ class StaffAdmin(admin.ModelAdmin):
     list_display = ['full_name', 'position']
 
 
+class SpecialityAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentGroup, StudentGroupAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Staff, StaffAdmin)
+admin.site.register(Speciality, SpecialityAdmin)

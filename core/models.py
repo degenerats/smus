@@ -4,15 +4,32 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class StudentGroup(models.Model):
+class Speciality(models.Model):
     GROUP_TYPES = (
         ('bachelor', u'Бакалавр'),
         ('magister', u'Магистр'),
     )
+    name = models.CharField(u'название', max_length=225)
+    acronym = models.CharField(u'аббревиатура', max_length=100)
+    speciality_type = models.CharField(u'тип обучения', choices=GROUP_TYPES, max_length=20)
 
-    name = models.CharField(u'название', max_length=100)
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = u'специальность'
+        verbose_name_plural = u'специальности'
+
+
+class StudentGroup(models.Model):
+
+    speciality = models.ForeignKey(Speciality, verbose_name=u'специальность')
+    index = models.PositiveSmallIntegerField(u'индекс')
     start_year = models.PositiveIntegerField(u'год поступления')
-    group_type = models.CharField(u'тип обучения', choices=GROUP_TYPES, max_length=20)
+
+    @property
+    def name(self):
+        return u'%s-%s%s' % (self.speciality.acronym, self.index, self.course)
 
     @property
     def course(self):
