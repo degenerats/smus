@@ -27,7 +27,7 @@ class StudentGroup(models.Model):
 
 
 class Student(models.Model):
-    group = models.ForeignKey(StudentGroup, verbose_name='группа')
+    group = models.ForeignKey(StudentGroup, verbose_name='группа', related_name='students')
     last_name = models.CharField(u'фамилия', max_length=100)
     first_name = models.CharField(u'имя', max_length=100)
     middle_name = models.CharField(u'отчество', max_length=100, default='', blank=True)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'pipeline',
     'core',
+    'attendance',
 ]
 
 MIDDLEWARE_CLASSES = [
