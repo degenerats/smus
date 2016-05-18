@@ -21,33 +21,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Главная</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Отчеты<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Студент ФИО</a></li>
-                <li><a href="#">Группа</a></li>
-                <li><a href="#">Курс</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Бакалавриат</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Магистратура</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Добавить<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Посещаемость</a></li>
-                <li><a href="#">Экзамены</a></li>
-                <li><a href="#">Зачеты</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Дипломная работа</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Курсовая работа</a></li>
-              </ul>
-            </li>
+            <li><a href="#">Персональный отчет</a></li>
+            <li><a href="#">Бакалавриат</a></li>
+            <li><a href="#">Магистратура</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Помощь</a></li>
             <form class="navbar-form navbar-left" role="search">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Поиск">
@@ -55,18 +33,29 @@
               <button type="submit" class="btn btn-default">Поиск</button>
             </form>
           </ul>
+          {% block auth %}
+            <div class="nav navbar-nav navbar-right login-bar">
+              <span class="navbar-text">
+                Вы вошли как
+              </span>
+              <div class="dropdown navbar-text">
+                <a href="#" class="navbar-link" type="button" id="dropdown-logout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{ request.user.username }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu-logout">
+                  <li><a href="{% url 'account:logout' %}">Выйти</a></li>
+                </ul>
+              </div>
+              <span class="navbar-text">
+                <i class="glyphicon glyphicon-user"></i>
+              </span>
+            </div>
+          {% endblock %}
         </div>
       </div>
     </nav>
   </header>
   {% block breadcrumbs %}
-    <nav role="breadcrumbs">
-      <div class="container-fluid">
-        <ol class="breadcrumb">
-            <li class="active">Главная</li>
-        </ol>
-      </div>
-    </nav>
   {% endblock %}
   <div class="messages">
     <div class="container-fluid">

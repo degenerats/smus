@@ -5,3 +5,13 @@
     float: right;
   }
 }
+
+.login-bar {
+  .dropdown {
+    display: inline-block;
+  }
+  .navbar-text {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+}
