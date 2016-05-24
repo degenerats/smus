@@ -1,0 +1,60 @@
+{% extends 'page/base.html' %}
+
+{% block title %} {{ speciality_type }} {% endblock %}
+
+{% block nav %}
+  <ul class="nav navbar-nav">
+    <li><a href="{% url 'home' %}">Главная</a></li>
+    <li><a href="#">Персональный отчет</a></li>
+    {% if speciality_type == 'Бакалавриат' %}
+      <li class="active"><span>Бакалавриат</span></li>
+      <li><a href="{% url 'speciality' 'magister' %}">Магистратура</a></li>
+    {% else %}
+      <li><a href="{% url 'speciality' 'bachelor' %}">Бакалавриат</a></li>
+      <li class="active"><span>Магистратура</span></li>
+    {% endif %}
+  </ul>
+{% endblock %}
+
+{% block breadcrumbs %}
+<nav role="breadcrumbs">
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li class="active">{{ speciality_type }}</li>
+    </ol>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-header">
+    {{ speciality_type }}
+  </h1>
+  <div class="speciality">
+    <div class="speciality__filter">
+    </div>
+    <div class="speciality__content">
+      <div class="panel-group" id="accordion_spec" role="tablist" aria-multiselectable="true">
+        {% for speciality in object_list %}
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="sepc-{{ forloop.counter }}">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne">
+                  {{ speciality.name }}
+                </a>
+              </h4>
+            </div>
+            <div id="collapse-{{ forloop.counter }}" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                {% for group in speciality.studentgroup_set.all %}
+                  <a href="{% url 'group' group.id %}">{{ group.name }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
