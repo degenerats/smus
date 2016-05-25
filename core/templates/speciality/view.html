@@ -47,9 +47,11 @@
             </div>
             <div id="collapse-{{ forloop.counter }}" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
               <div class="panel-body">
-                {% for group in speciality.studentgroup_set.all %}
-                  <a href="{% url 'group' group.id %}">{{ group.name }}</a>
-                {% endfor %}
+                <ul>
+                  {% for group in speciality.studentgroup_set.all %}
+                    <li><a href="{% url 'group' group.id %}">{{ group.name }}</a></li>
+                  {% endfor %}
+                </ul>
               </div>
             </div>
           </div>

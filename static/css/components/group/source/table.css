@@ -15,3 +15,7 @@
 .fixed-table-body-columns {
   top: 82px !important;
 }
+
+.bootstrap-table {
+  overflow: hidden;
+}
