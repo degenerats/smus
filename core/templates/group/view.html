@@ -102,7 +102,10 @@
             </div>
           </div>
           <div class="main-table">
-            <table data-toggle="table">
+            <table data-toggle="table"
+            data-fixed-columns="true"
+      data-fixed-number="1"
+            >
                 <thead>
                   <tr>
                       <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
@@ -113,16 +116,16 @@
                   <tr>
                     {% for item in data %}
                       {% for lesson in item.lessons %}
-                      <th>{{ lesson.date|date:"d.m.Y" }}</th>
+                      <th data-field="lesson_date">{{ lesson.date|date:"d.m.Y" }}</th>
                       {% endfor %}
-                      <th>%</th>
+                      <th data-field="attendance_percent">%</th>
                     {% endfor %}
                   </tr>
                 </thead>
                 <tbody>
                   {% for student in data.0.students %}
                     <tr>
-                      <td>{{ student.student.last_name }} {{ student.student.first_name }}</td>
+                      <td data-field="student">{{ student.student.last_name }} {{ student.student.first_name }}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
