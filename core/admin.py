@@ -36,7 +36,7 @@ class SpecialityAdmin(admin.ModelAdmin):
 
 
 class SemesterAdmin(admin.ModelAdmin):
-    list_display = ['start', 'end', 'group']
+    list_display = ['group', 'number']
     inlines = SubjectInline,
 
 

@@ -2,3 +2,4 @@ Django
 psycopg2
 MySQL-python
 django-pipeline
+django-solo

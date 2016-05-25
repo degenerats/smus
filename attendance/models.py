@@ -10,7 +10,7 @@ class Attendance(models.Model):
     lesson = models.ForeignKey('Lesson', verbose_name=u'занятие')
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.student, self.lesson.subject, self.lesson.date)
+        return u'%s, %s, %s' % (self.student, self.lesson.semester_subject, self.lesson.date)
 
     class Meta:
         verbose_name = u'посещение'
@@ -18,16 +18,15 @@ class Attendance(models.Model):
 
 
 class Lesson(models.Model):
-    subject = models.ForeignKey(SemesterSubject, verbose_name=u'предмет', related_name='lessons')
+    semester_subject = models.ForeignKey(SemesterSubject, verbose_name=u'предмет', related_name='lessons')
     date = models.DateField(verbose_name=u'дата')
-    group = models.ForeignKey(StudentGroup, verbose_name=u'группа')
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.subject, self.group, self.date)
+        return u'%s, %s' % (self.semester_subject, self.date)
 
     def save(self, *args, **kwargs):
         super(Lesson, self).save(*args, **kwargs)
-        for student in self.group.students.all():
+        for student in self.semester_subject.semester.group.students.all():
             Attendance.objects.get_or_create(
                 student=student,
                 lesson=self
