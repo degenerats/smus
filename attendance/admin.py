@@ -13,7 +13,7 @@ class AttendanceInline(admin.TabularInline):
 
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['subject', 'group', 'date']
+    list_display = ['semester_subject', 'date']
     inlines = AttendanceInline,
 
 
