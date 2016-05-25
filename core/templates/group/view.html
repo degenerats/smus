@@ -102,35 +102,34 @@
             </div>
           </div>
           <div class="main-table">
-            {% for item in data %}
-            <table data-toggle="table">
+            <table data-toggle="table"
+            data-fixed-columns="true"
+      data-fixed-number="1"
+            >
                 <thead>
                   <tr>
                       <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
-                      <th data-field="subject_4" colspan="10">{{ item.subject.subject.name }}</th>
+                      {% for item in data %}
+                        <th data-field="subject" colspan="{{ item.lessons|length|add:'1' }}">{{ item.subject.subject.name }}</th>
+                      {% endfor %}
                   </tr>
                   <tr>
-                    {% for lesson in item.lessons %}
-                    <th>{{ lesson.date|date:"d.m.Y" }}</th>
+                    {% for item in data %}
+                      {% for lesson in item.lessons %}
+                      <th data-field="lesson_date">{{ lesson.date|date:"d.m.Y" }}</th>
+                      {% endfor %}
+                      <th data-field="attendance_percent">%</th>
                     {% endfor %}
-                    <th>%</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for student in item.students %}
-                  <tr>
-                      <td>
-                          {{ student.student.last_name }} {{ student.student.first_name }}
-                      </td>
-                      {% for attendance in student.attendance %}
-                      <td>{% if attendance %}+{% else %}-{% endif %}</td>
-                      {% endfor %}
-                      <td></td>
-                  </tr>
+                  {% for student in data.0.students %}
+                    <tr>
+                      <td data-field="student">{{ student.student.last_name }} {{ student.student.first_name }}</td>
+                    </tr>
                   {% endfor %}
                 </tbody>
             </table>
-            {% endfor %}
           </div>
         </div>
       </div>

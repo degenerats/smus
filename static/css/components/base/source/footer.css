@@ -1,8 +1,5 @@
 footer[role='footer'] {
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 40px;
   line-height: 40px;
   background-color: #f5f5f5;
@@ -10,4 +7,17 @@ footer[role='footer'] {
   p {
     margin-bottom: 0;
   }
+}
+
+html, body {
+  height: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  margin-bottom: -40px;
+}
+.wrapper:after {
+  content: "";
+  display: block;
+  height: 40px;
 }
