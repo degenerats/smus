@@ -72,6 +72,7 @@ class Speciality(models.Model):
         verbose_name = u'специальность'
         verbose_name_plural = u'специальности'
 
+
 class Subject(models.Model):
     name = models.CharField(u'название', max_length=100)
     staff = models.ForeignKey('Staff', verbose_name='преподаватель')

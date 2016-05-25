@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.contrib import admin
+from solo.admin import SingletonModelAdmin
 
 from models import *
 
@@ -46,3 +47,4 @@ admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(Speciality, SpecialityAdmin)
 admin.site.register(Semester, SemesterAdmin)
+admin.site.register(SemesterConfiguration, SingletonModelAdmin)
