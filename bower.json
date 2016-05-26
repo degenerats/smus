@@ -8,6 +8,7 @@
     "bootstrap-select": "^1.10",
     "bootstrap-datepicker": "^1.6.1",
     "bootstrap-table": "^1.10.1",
-    "bootstrap-table-fixed-columns": "^1.0.0"
+    "bootstrap-table-fixed-columns": "^1.0.0",
+    "font-awesome": "^4.6.3"
   }
 }

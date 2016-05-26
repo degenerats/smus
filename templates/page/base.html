@@ -12,7 +12,7 @@
   <div class="wrapper">
     <header role="header">
       <nav class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
+        <div class="container">
           <div class="navbar-header">
             <a class="navbar-brand" href="{% url 'home' %}">
               Система мониторинга успеваемости студентов
@@ -23,7 +23,7 @@
             {% block nav %}
               <ul class="nav navbar-nav">
                 <li class="active"><span>Главная</span></li>
-                <li><a href="#">Персональный отчет</a></li>
+                <li><a href="#">Поиск</a></li>
                 <li><a href="{% url 'speciality' 'bachelor' %}">Бакалавриат</a></li>
                 <li><a href="{% url 'speciality' 'magister' %}">Магистратура</a></li>
               </ul>
@@ -61,13 +61,13 @@
     {% block breadcrumbs %}
     {% endblock %}
     <div class="messages">
-      <div class="container-fluid">
+      <div class="container">
         {% block messages %}
         {% endblock %}
       </div>
     </div>
     <article role="content">
-      <div class="container-fluid">
+      <div class="container">
         <div class="row">
           <div class="col-xs-12">
             {% block content %}
@@ -79,7 +79,7 @@
     </article>
   </div>
   <footer class="footer" role="footer">
-    <div class="container-fluid">
+    <div class="container">
       <a href="mailto:ravbetsky@ulsu.ru" class="pull-right">ravbetsky@ulsu.ru</a>
       <p class="text-muted pull-left">Система мониторинга успеваемости и посещаемости студентов. УлГУ, Кафедра "ММТС", 2016 г.</p>
     </div>

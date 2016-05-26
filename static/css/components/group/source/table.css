@@ -2,6 +2,21 @@
   th[data-field="student_name"] {
     width: 200px;
   }
+  .fa-star {
+    color: #f1c100;
+    font-size: 11px;
+    position: relative;
+    top: -6px;
+  }
+  th[data-field="lesson_date"] {
+    font-size: 11px;
+  }
+  th[data-field="subject"] {
+    background-color: rgba(195, 194, 194, 0.1);
+  }
+  td {
+    background-color: #fff;
+  }
 }
 
 /*Fix bootstrap fixed table column*/
@@ -14,8 +29,44 @@
 
 .fixed-table-body-columns {
   top: 82px !important;
+  z-index: 1;
 }
 
 .bootstrap-table {
   overflow: hidden;
+}
+
+/* Coursework/graduatework table */
+.main-table {
+  th[data-field='coursework_name'],
+  th[data-field='graduatework_name'] {
+    max-width: 375px;
+    min-width: 375px;
+  }
+  th[data-field='coursework_student'],
+  th[data-field='graduatework_student'] {
+    max-width: 215px;
+    min-width: 215px;
+  }
+  th[data-field='coursework_progress'],
+  th[data-field='graduatework_progress'] {
+    min-width: 340px;
+  }
+  th[data-field='coursework_date'],
+  th[data-field='graduatework_date'] {
+    width: 177px;
+  }
+}
+
+/*Progress table*/
+.main-table {
+  th[data-field='sunbject_progress'] {
+    font-size: 11px;
+    background-color: rgba(195, 194, 194, 0.1);
+  }
+  td[data-field='progress_score'],
+  th[data-field='progress_score'] {
+    background-color: #E6FFEA;
+    font-weight: bold;
+  }
 }

@@ -145,6 +145,7 @@ PIPELINE = {
               'bower_components/bootstrap-select/dist/css/bootstrap-select.css',
               'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css',
               'bower_components/bootstrap-table/dist/bootstrap-table.css',
+              'bower_components/font-awesome/css/font-awesome.css',
               'bower_components/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css',
             ),
             'output_filename': 'css/libs.css',
