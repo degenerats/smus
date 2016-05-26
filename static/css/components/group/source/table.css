@@ -1,5 +1,5 @@
 .main-table {
-  th[data-field="student_name"] {
+  th.student_name {
     width: 200px;
   }
   .fa-star {
@@ -8,10 +8,10 @@
     position: relative;
     top: -6px;
   }
-  th[data-field="lesson_date"] {
+  th.lesson_date {
     font-size: 11px;
   }
-  th[data-field="subject"] {
+  th.subject {
     background-color: rgba(195, 194, 194, 0.1);
   }
   td {
@@ -21,7 +21,7 @@
 
 /*Fix bootstrap fixed table column*/
 .fixed-table-header-columns {
-  th[data-field='student_name'] {
+  th.student_name {
     height: 81px !important;
     vertical-align: bottom;
   }
@@ -38,34 +38,34 @@
 
 /* Coursework/graduatework table */
 .main-table {
-  th[data-field='coursework_name'],
-  th[data-field='graduatework_name'] {
+  th.coursework_name,
+  th.graduatework_name {
     max-width: 375px;
     min-width: 375px;
   }
-  th[data-field='coursework_student'],
-  th[data-field='graduatework_student'] {
+  th.coursework_student,
+  th.graduatework_student {
     max-width: 215px;
     min-width: 215px;
   }
-  th[data-field='coursework_progress'],
-  th[data-field='graduatework_progress'] {
+  th.coursework_progress,
+  th.graduatework_progress {
     min-width: 340px;
   }
-  th[data-field='coursework_date'],
-  th[data-field='graduatework_date'] {
+  th.coursework_date,
+  th.graduatework_date {
     width: 177px;
   }
 }
 
 /*Progress table*/
 .main-table {
-  th[data-field='sunbject_progress'] {
+  th.sunbject_progress {
     font-size: 11px;
     background-color: rgba(195, 194, 194, 0.1);
   }
-  td[data-field='progress_score'],
-  th[data-field='progress_score'] {
+  td.progress_score,
+  th.progress_score {
     background-color: #E6FFEA;
     font-weight: bold;
   }

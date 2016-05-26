@@ -109,17 +109,17 @@
             >
                 <thead>
                   <tr>
-                      <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
+                      <th rowspan="2">ФИО студента/ Дисциплина</th>
                       {% for subject in data.subjects %}
-                        <th data-field="subject" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
+                        <th colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
                       {% endfor %}
                   </tr>
                   <tr>
                     {% for subject in data.subjects %}
                       {% for lesson in subject.lessons.all %}
-                      <th data-field="lesson_date">{{ lesson.date|date:"d.m.Y" }}</th>
+                      <th>{{ lesson.date|date:"d.m.Y" }}</th>
                       {% endfor %}
-                      <th data-field="attendance_percent">%</th>
+                      <th>%</th>
                     {% endfor %}
                   </tr>
                 </thead>
@@ -127,14 +127,18 @@
                   {% for student in data.students %}
 
                     <tr>
-                      <td data-field="student"><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
+                      <td><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
                         {% if forloop.counter == 4 %}
                           <i class="fa fa-star" aria-hidden="true"></i>
                         {% endif %}
                       </td>
                         {% for subject in student.subjects %}
                           {% for lesson in subject.attendance %}
-                          <td>{{ lesson.attended|yesno:"+,-" }}</td>
+                          <td>
+                            {% if not lesson.attended %}
+                              <span class='non'>н</span>
+                            {% endif %}
+                          </td>
                           {% endfor %}
                           <td>%</td>
                         {% endfor %}
@@ -181,82 +185,82 @@
             <table data-toggle="table">
               <thead>
                 <tr>
-                  <th data-field='progress_student' rowspan="2">ФИО студента</th>
-                  <th data-field='progress_score' rowspan="2">Средний балл</th>
-                  <th data-field='progress_pass' colspan="2">Зачеты</th>
-                  <th data-field='progress_examen' colspan="2">Экзамены</th>
+                  <th class='progress_student' rowspan="2">ФИО студента</th>
+                  <th class='progress_score' rowspan="2">Средний балл</th>
+                  <th class='progress_pass' colspan="2">Зачеты</th>
+                  <th class='progress_examen' colspan="2">Экзамены</th>
                 </tr>
                 <tr>
-                  <th data-field="sunbject_progress">ФОПФ</th>
-                  <th data-field="sunbject_progress">Графическое моделирование</th>
-                  <th data-field="sunbject_progress">Методы исследования эффективности функционирования ОТС</th>
-                  <th data-field="sunbject_progress">Конструирование</th>
+                  <th class="sunbject_progress">ФОПФ</th>
+                  <th class="sunbject_progress">Графическое моделирование</th>
+                  <th class="sunbject_progress">Методы исследования эффективности функционирования ОТС</th>
+                  <th class="sunbject_progress">Конструирование</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">1. </span>
                     Затулина Эмилия
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">2. </span>
                     Кондратьев Евсей
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">3. </span>
                     Наумов Игорь
                     <i class="fa fa-star" aria-hidden="true"></i>
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">4. </span>
                     Конягин Селиверст
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">5. </span>
                     Кочетков Елисей
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">6. </span>
                     Львов Аггей
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">7. </span>
                     Сидорова Казимира
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">8. </span>
                     Затулина Эмилия
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">9. </span>
                     Герасимова Роза
                   </td>
-                  <td data-field="progress_score">3.4</td>
+                  <td class="progress_score">3.4</td>
                 </tr>
               </tbody>
             </table>
@@ -300,17 +304,17 @@
             <table data-toggle="table">
               <thead>
                 <tr>
-                  <th data-field='coursework_student'>ФИО студента</th>
-                  <th data-field='coursework_name'>Тема курсовой работы</th>
-                  <th data-field='coursework_reviewer'>Научный руководитель</th>
-                  <th data-field='coursework_progress'>Прогресс</th>
-                  <th data-field='coursework_date'>Дата обновления</th>
-                  <th data-field='coursework_grade'>Оценка</th>
+                  <th class='coursework_student'>ФИО студента</th>
+                  <th class='coursework_name'>Тема курсовой работы</th>
+                  <th class='coursework_reviewer'>Научный руководитель</th>
+                  <th class='coursework_progress'>Прогресс</th>
+                  <th class='coursework_date'>Дата обновления</th>
+                  <th class='coursework_grade'>Оценка</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">1. </span>
                     Затулина Эмилия
                   </td>
@@ -335,7 +339,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">2. </span>
                     Кондратьев Евсей
                   </td>
@@ -360,7 +364,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">3. </span>
                     Наумов Игорь
                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -386,7 +390,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">4. </span>
                     Конягин Селиверст
                   </td>
@@ -411,7 +415,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">5. </span>
                     Кочетков Елисей
                   </td>
@@ -434,7 +438,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">6. </span>
                     Львов Аггей
                   </td>
@@ -459,7 +463,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">7. </span>
                     Сидорова Казимира
                   </td>
@@ -484,7 +488,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">8. </span>
                     Затулина Эмилия
                   </td>
@@ -509,7 +513,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">9. </span>
                     Герасимова Роза
                   </td>
@@ -561,17 +565,17 @@
             <table data-toggle="table">
               <thead>
                 <tr>
-                  <th data-field='graduatework_student'>ФИО студента</th>
-                  <th data-field='graduatework_name'>Тема дипломной работы</th>
-                  <th data-field='graduatework_reviewer'>Научный руководитель</th>
-                  <th data-field='graduatework_progress'>Прогресс</th>
-                  <th data-field='graduatework_date'>Дата обновления</th>
-                  <th data-field='graduatework_grade'>Оценка</th>
+                  <th class='graduatework_student'>ФИО студента</th>
+                  <th class='graduatework_name'>Тема дипломной работы</th>
+                  <th class='graduatework_reviewer'>Научный руководитель</th>
+                  <th class='graduatework_progress'>Прогресс</th>
+                  <th class='graduatework_date'>Дата обновления</th>
+                  <th class='graduatework_grade'>Оценка</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">1. </span>
                     Затулина Эмилия
                   </td>
@@ -596,7 +600,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">2. </span>
                     Кондратьев Евсей
                   </td>
@@ -621,7 +625,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">3. </span>
                     Наумов Игорь
                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -647,7 +651,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">4. </span>
                     Конягин Селиверст
                   </td>
@@ -672,7 +676,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">5. </span>
                     Кочетков Елисей
                   </td>
@@ -695,7 +699,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">6. </span>
                     Львов Аггей
                   </td>
@@ -720,7 +724,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">7. </span>
                     Сидорова Казимира
                   </td>
@@ -745,7 +749,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">8. </span>
                     Затулина Эмилия
                   </td>
@@ -770,7 +774,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-field="student">
+                  <td class="student">
                     <span class="count">9. </span>
                     Герасимова Роза
                   </td>
