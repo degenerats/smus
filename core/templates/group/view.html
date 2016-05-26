@@ -110,13 +110,13 @@
                 <thead>
                   <tr>
                       <th data-field="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
-                      {% for item in data %}
-                        <th data-field="subject" colspan="{{ item.lessons|length|add:'1' }}">{{ item.subject.subject.name }}</th>
+                      {% for subject in data.subjects %}
+                        <th data-field="subject" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
                       {% endfor %}
                   </tr>
                   <tr>
-                    {% for item in data %}
-                      {% for lesson in item.lessons %}
+                    {% for subject in data.subjects %}
+                      {% for lesson in subject.lessons.all %}
                       <th data-field="lesson_date">{{ lesson.date|date:"d.m.Y" }}</th>
                       {% endfor %}
                       <th data-field="attendance_percent">%</th>
@@ -124,13 +124,20 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for student in data.0.students %}
+                  {% for student in data.students %}
+
                     <tr>
                       <td data-field="student"><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
                         {% if forloop.counter == 4 %}
                           <i class="fa fa-star" aria-hidden="true"></i>
                         {% endif %}
                       </td>
+                        {% for subject in student.subjects %}
+                          {% for lesson in subject.attendance %}
+                          <td>{{ lesson.attended|yesno:"+,-" }}</td>
+                          {% endfor %}
+                          <td>%</td>
+                        {% endfor %}
                     </tr>
                   {% endfor %}
                 </tbody>

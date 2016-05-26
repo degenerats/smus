@@ -122,29 +122,41 @@ class StudentGroup(models.Model):
             if semester is None:
                 return []
 
+        data = {}
+        students = self.students.all()
         subjects = self.get_subjects(semester)
-        data = []
-        for subject in subjects:
-            lessons = subject.lessons.all()
-            students = []
-            for student in self.students.all():
+        students_data = []
+        for student in students:
+            subjects_data = []
+            for subject in subjects:
                 attendance = []
+                lessons = subject.lessons.all()
                 for lesson in lessons:
                     a, created = Attendance.objects.get_or_create(
                         lesson=lesson,
                         student=student
                     )
-                    attendance.append(a.attended)
-
-                students.append({
-                    'student': student,
+                    print a.attended
+                    print a.attended
+                    attendance.append({
+                        'lesson': lesson,
+                        'attended': a.attended
+                    })
+                subjects_data.append({
+                    'subject': subject,
                     'attendance': attendance
                 })
-            data.append({
-                'subject': subject,
-                'lessons': lessons,
-                'students': students
+            students_data.append({
+                'student': student,
+                'subjects': subjects_data
             })
+
+        data['students'] = students_data
+        data['subjects'] = subjects
+
+        import pprint
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(data['students'])
         return data
 
     def __unicode__(self):
