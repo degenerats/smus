@@ -1,0 +1,27 @@
+{% extends 'page/base.html' %}
+
+{% block title %} Поиск {% endblock %}
+
+{% block nav %}
+  <ul class="nav navbar-nav">
+    <li><a href="{% url 'home' %}">Главная</a></li>
+    <li class="active"><span>Поиск</span></li>
+    <li><a href="{% url 'speciality' 'magister' %}">Магистратура</a></li>
+    <li><a href="{% url 'speciality' 'bachelor' %}">Бакалавриат</a></li>
+  </ul>
+{% endblock %}
+
+{% block breadcrumbs %}
+<nav role="breadcrumbs">
+  <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li class="active">Поиск</li>
+    </ol>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <h1>Pizduk</h1>
+{% endblock %}

@@ -3,6 +3,7 @@ from views import GroupView, SpecialityView
 
 urlpatterns = [
     url(r'^group/(?P<pk>\d+)/$', GroupView.as_view(), name='group'),
+    # url(r'^search/$', GroupView.as_view(), name='search'),
     # url(r'^bachelor/$', GroupView.as_view(), name='speciality', {'level': 'bachelor',})
     # url(r'^magister/$', GroupView.as_view(), name='speciality', {'level': 'magister',})
     url(r'^(?P<level>bachelor|magister)/$', SpecialityView.as_view(), name='speciality')

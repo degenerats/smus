@@ -4,7 +4,6 @@ from django.views.generic import DetailView, ListView
 
 from models import StudentGroup, Speciality
 
-
 class GroupView(DetailView):
     model = StudentGroup
     template_name = 'group/view.html'
