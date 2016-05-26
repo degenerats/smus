@@ -131,20 +131,23 @@ class StudentGroup(models.Model):
             for subject in subjects:
                 attendance = []
                 lessons = subject.lessons.all()
+                attendance_count = 0
                 for lesson in lessons:
                     a, created = Attendance.objects.get_or_create(
                         lesson=lesson,
                         student=student
                     )
-                    print a.attended
-                    print a.attended
                     attendance.append({
                         'lesson': lesson,
                         'attended': a.attended
                     })
+                    if a.attended:
+                        attendance_count += 1
+
                 subjects_data.append({
                     'subject': subject,
-                    'attendance': attendance
+                    'attendance': attendance,
+                    'attendance_overall': '%s%%' % int(attendance_count*100.0/lessons.count()),
                 })
             students_data.append({
                 'student': student,
@@ -153,10 +156,6 @@ class StudentGroup(models.Model):
 
         data['students'] = students_data
         data['subjects'] = subjects
-
-        import pprint
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(data['students'])
         return data
 
     def __unicode__(self):

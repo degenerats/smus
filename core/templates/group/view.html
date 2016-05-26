@@ -125,7 +125,6 @@
                 </thead>
                 <tbody>
                   {% for student in data.students %}
-
                     <tr>
                       <td><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
                         {% if forloop.counter == 4 %}
@@ -140,7 +139,7 @@
                             {% endif %}
                           </td>
                           {% endfor %}
-                          <td>%</td>
+                          <td>{{ subject.attendance_overall }}</td>
                         {% endfor %}
                     </tr>
                   {% endfor %}
