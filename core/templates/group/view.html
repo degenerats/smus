@@ -32,7 +32,7 @@
         <div class="content-attendance">
           <div class="top-controls">
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-4">
                 <form>
                   <div class="checkbox">
                     <label>
@@ -40,20 +40,6 @@
                     </label>
                   </div>
                 </form>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="sort-by">
-                  <div class="form-group">
-                    <label for="sort">Сортировать по</label>
-                    <select class="selectpicker">
-                      <option>Пропускам(возрастание)</option>
-                      <option>Пропускам(убывание)</option>
-                      <option>Алфавиту</option>
-                    </select>
-                  </div>
-                </div>
               </div>
               <div class="col-md-5">
                 <div class="filter-by">
@@ -101,69 +87,68 @@
                 </div>
               </div>
             </div>
-          </div>
           <div class="main-table" id="attendance_table">
-            <table data-toggle="table"
-            data-fixed-columns="true"
-      data-fixed-number="1"
-            >
-                <thead>
-                  <tr>
-                      <th rowspan="2">ФИО студента/ Дисциплина</th>
-                      {% for subject in data.subjects %}
-                        <th colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
-                      {% endfor %}
-                  </tr>
-                  <tr>
+            <table data-toggle="table" data-fixed-columns="true" data-fixed-number="1" data-sort-name="attendance">
+              <thead>
+                <tr>
+                    <th class="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
                     {% for subject in data.subjects %}
-                      {% for lesson in subject.lessons.all %}
-                      <th>{{ lesson.date|date:"d.m.Y" }}</th>
-                      {% endfor %}
-                      <th>%</th>
+                      <th colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
                     {% endfor %}
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for student in data.students %}
-                    <tr>
-                      <td><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
-                        {% if forloop.counter == 4 %}
-                          <i class="fa fa-star" aria-hidden="true"></i>
-                        {% endif %}
-                      </td>
-                        {% for subject in student.subjects %}
-                          {% for lesson in subject.attendance %}
-                          <td>
-                            {% if not lesson.attended %}
-                              <span class='non'>н</span>
-                            {% endif %}
-                          </td>
-                          {% endfor %}
-                          <td>{{ subject.attendance_overall }}</td>
-                        {% endfor %}
-                    </tr>
+                </tr>
+                <tr>
+                  {% for subject in data.subjects %}
+                    {% for lesson in subject.lessons.all %}
+                    <th>{{ lesson.date|date:"d.m.Y" }}</th>
+                    {% endfor %}
+                    <th data-sortable="true">%</th>
                   {% endfor %}
-                </tbody>
+                </tr>
+              </thead>
+              <tbody>
+                {% for student in data.students %}
+                  <tr>
+                    <td><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
+                      {% if forloop.counter == 4 %}
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                      {% endif %}
+                    </td>
+                      {% for subject in student.subjects %}
+                        {% for lesson in subject.attendance %}
+                        <td>
+                          {% if not lesson.attended %}
+                            <span class='non'>н</span>
+                          {% endif %}
+                        </td>
+                        {% endfor %}
+                        <td>
+                        {% if subject.attendance_overall < 25 %}
+                          <span class="att-percent red">{{ subject.attendance_overall }}</span>
+                        {% else %}
+                          {% if subject.attendance_overall < 50 %}
+                            <span class="att-percent orange">{{ subject.attendance_overall }}</span>
+                          {% else %}
+                            {% if subject.attendance_overall < 75 %}
+                              <span class="att-percent yellow">{{ subject.attendance_overall }}</span>
+                            {% else %}
+                            <span class="att-percent green">{{ subject.attendance_overall }}</span>
+                            {% endif %}
+                          {% endif %}
+                        {% endif %}
+                        </td>
+                      {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
             </table>
           </div>
         </div>
+      </div>
       <!-- TAB PROGRESS -->
       <div role="tabpanel" class="tab-pane" id="progress">
         <div class="content-progress">
-          <div class="progress-controls">
+          <div class="top-controls">
             <div class="row">
-              <div class="col-md-4">
-                <div class="sort-by">
-                  <div class="form-group">
-                    <label for="sort">Сортировать по</label>
-                    <select class="selectpicker">
-                      <option>Средний балл(возрастание)</option>
-                      <option>Средний балл(убывание)</option>
-                      <option>Алфавиту</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-5">
                 <div class="filter-by">
                   <form class="form-inline">
@@ -180,20 +165,23 @@
               </div>
             </div>
           </div>
-          <div class="main-table" id="coursework_table">
-            <table data-toggle="table">
+          <div class="main-table" id="progress_table">
+            <table data-toggle="table"
+                   data-sort-name="progress"
+                   data-sort-order="desc"
+            >
               <thead>
                 <tr>
                   <th class='progress_student' rowspan="2">ФИО студента</th>
-                  <th class='progress_score' rowspan="2">Средний балл</th>
+                  <th class='progress_score' rowspan="2" data-sortable="true">Средний балл</th>
                   <th class='progress_pass' colspan="2">Зачеты</th>
                   <th class='progress_examen' colspan="2">Экзамены</th>
                 </tr>
                 <tr>
                   <th class="sunbject_progress">ФОПФ</th>
                   <th class="sunbject_progress">Графическое моделирование</th>
-                  <th class="sunbject_progress">Методы исследования эффективности функционирования ОТС</th>
-                  <th class="sunbject_progress">Конструирование</th>
+                  <th class="sunbject_progress" data-sortable="true">Методы исследования эффективности функционирования ОТС</th>
+                  <th class="sunbject_progress" data-sortable="true">Конструирование</th>
                 </tr>
               </thead>
               <tbody>
@@ -202,14 +190,22 @@
                     <span class="count">1. </span>
                     Затулина Эмилия
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">4.3</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">5</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">2. </span>
                     Кондратьев Евсей
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">3.3</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">3</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
@@ -217,49 +213,77 @@
                     Наумов Игорь
                     <i class="fa fa-star" aria-hidden="true"></i>
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">3.9</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">4</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">4. </span>
                     Конягин Селиверст
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">4.1</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">4</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">5. </span>
                     Кочетков Елисей
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">3.6</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">3</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">6. </span>
                     Львов Аггей
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">4.9</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">5</span></td>
+                  <td><span class="grade">5</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">7. </span>
                     Сидорова Казимира
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">3.0</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">3</span></td>
+                  <td><span class="grade">3</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">8. </span>
                     Затулина Эмилия
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">3.9</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">4</span></td>
+                  <td><span class="grade">4</span></td>
                 </tr>
                 <tr>
                   <td class="student">
                     <span class="count">9. </span>
                     Герасимова Роза
                   </td>
-                  <td class="progress_score">3.4</td>
+                  <td class="progress_score">4.5</td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="pass pass-ok">зачет</span></td>
+                  <td><span class="grade">4</span></td>
+                  <td><span class="grade">5</span></td>
                 </tr>
               </tbody>
             </table>
@@ -269,20 +293,8 @@
       <!-- TAB COURSEWORK -->
       <div role="tabpanel" class="tab-pane" id="coursework">
         <div class="content-coursework">
-          <div class="courswork-controls">
+          <div class="top-controls">
             <div class="row">
-              <div class="col-md-4">
-                <div class="sort-by">
-                  <div class="form-group">
-                    <label for="sort">Сортировать по</label>
-                    <select class="selectpicker">
-                      <option>Прогресс(возрастание)</option>
-                      <option>Прогресс(убывание)</option>
-                      <option>Алфавиту</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-8">
                 <div class="filter-by">
                   <form class="form-inline">
@@ -300,15 +312,15 @@
             </div>
           </div>
           <div class="main-table" id="coursework_table">
-            <table data-toggle="table">
+            <table data-toggle="table" data-sort-name="coursework" data-sort-order="desc">
               <thead>
                 <tr>
                   <th class='coursework_student'>ФИО студента</th>
                   <th class='coursework_name'>Тема курсовой работы</th>
                   <th class='coursework_reviewer'>Научный руководитель</th>
-                  <th class='coursework_progress'>Прогресс</th>
+                  <th class='coursework_progress' data-sortable="true">Прогресс</th>
                   <th class='coursework_date'>Дата обновления</th>
-                  <th class='coursework_grade'>Оценка</th>
+                  <th class='coursework_grade' data-sortable="true">Оценка</th>
                 </tr>
               </thead>
               <tbody>
@@ -433,7 +445,7 @@
                     <span>11.02.2013</span>
                   </td>
                   <td>
-                    <span><b>4</b></span>
+                    <span>&nbsp;</span>
                   </td>
                 </tr>
                 <tr>
@@ -544,7 +556,7 @@
       <!-- TAB GRADUATEEWORK -->
       <div role="tabpanel" class="tab-pane" id="graduatework">
         <div class="content-graduatework">
-          <div class="courswork-controls">
+          <div class="top-controls">
             <div class="row">
               <div class="col-md-4">
                 <div class="sort-by">

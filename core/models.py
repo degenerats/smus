@@ -147,7 +147,7 @@ class StudentGroup(models.Model):
                 subjects_data.append({
                     'subject': subject,
                     'attendance': attendance,
-                    'attendance_overall': '%s%%' % int(attendance_count*100.0/lessons.count()),
+                    'attendance_overall': int(attendance_count*100.0/lessons.count()),
                 })
             students_data.append({
                 'student': student,

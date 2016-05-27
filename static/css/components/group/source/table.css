@@ -17,6 +17,31 @@
   td {
     background-color: #fff;
   }
+  span.non {
+    display: block;
+    text-align: center;
+    color: #999999;
+  }
+  span.att-percent {
+    &.red {
+      color: #FF0000;
+    }
+    &.orange {
+      color: #FF9900;
+    }
+    &.yellow {
+      color: #FFCC00;
+    }
+    &.green {
+      color: #339933;
+    }
+  }
+  span.pass {
+    font-style: italic;
+  }
+  span.grade {
+    font-weight: bold;
+  }
 }
 
 /*Fix bootstrap fixed table column*/
@@ -69,4 +94,8 @@
     background-color: #E6FFEA;
     font-weight: bold;
   }
+}
+.top-controls {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
