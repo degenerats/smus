@@ -16,4 +16,4 @@ class @AttendanceTable extends @Table
     @table.bootstrapTable()
     @table.bootstrapTable('hideColumn', 'attendance_all_subjects')
     if @percent_checkbox
-      @percent_checkbox.checked = !@percent_checkbox.checked
+      @percent_checkbox.checked = false
