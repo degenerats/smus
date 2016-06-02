@@ -126,8 +126,10 @@ class StudentGroup(models.Model):
         students = self.students.all()
         subjects = self.get_subjects(semester)
         students_data = []
+        student_data = []
         for student in students:
             subjects_data = []
+            attendance_all_subjects = 0
             for subject in subjects:
                 attendance = []
                 lessons = subject.lessons.all()
@@ -149,9 +151,11 @@ class StudentGroup(models.Model):
                     'attendance': attendance,
                     'attendance_overall': int(attendance_count*100.0/lessons.count()),
                 })
+                attendance_all_subjects += int(attendance_count*100.0/lessons.count())
             students_data.append({
                 'student': student,
-                'subjects': subjects_data
+                'subjects': subjects_data,
+                'attendance_all_subjects': int(attendance_all_subjects/subjects.count())
             })
 
         data['students'] = students_data

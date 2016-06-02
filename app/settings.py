@@ -168,7 +168,13 @@ PIPELINE = {
               'bower_components/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js',
             ),
             'output_filename': 'js/libs.js',
-        }
+        },
+        'custom': {
+            'source_filenames': (
+              'js/scripts.min.js',
+            ),
+            'output_filename': 'js/scripts.min.js',
+        },
     }
 }
 
