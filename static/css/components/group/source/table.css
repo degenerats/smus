@@ -22,18 +22,22 @@
     text-align: center;
     color: #999999;
   }
-  span.att-percent {
+  td.att-percent {
     &.red {
       color: #FF0000;
+      font-weight: bold;
     }
     &.orange {
       color: #FF9900;
+      font-weight: bold;
     }
     &.yellow {
       color: #FFCC00;
+      font-weight: bold;
     }
     &.green {
       color: #339933;
+      font-weight: bold;
     }
   }
   span.pass {
@@ -41,6 +45,13 @@
   }
   span.grade {
     font-weight: bold;
+  }
+  th.subject {
+    font-size: 11px;
+    background: rgba(194, 193, 193, 0.1);
+  }
+  th.attendance_date {
+    font-size: 11px;
   }
 }
 
@@ -98,4 +109,9 @@
 .top-controls {
   margin-top: 20px;
   margin-bottom: 10px;
+  .checkbox {
+    padding-left: 20px;
+    margin-top: 6px;
+    margin-bottom: 0;
+  }
 }

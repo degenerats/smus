@@ -32,11 +32,14 @@
         <div class="content-attendance">
           <div class="top-controls">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-2">
+                <button class="btn btn-default" onclick="window.attendanceTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+              </div>
+              <div class="col-md-2">
                 <form>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" onclick="window.attendanceTable.showOnlyPercents(this)"> Показывать только % пропусков
+                      <input type="checkbox" onclick="window.attendanceTable.showOnlyPercents(this)"> % по всем дисцплинам
                     </label>
                   </div>
                 </form>
@@ -92,18 +95,20 @@
               <thead>
                 <tr>
                     <th class="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
-                    <th class="attendance_overall"  data-field="attendance_all_subjects" rowspan="2">% по всем дисциплинам</th>
+                    <th class="attendance_overall"  data-field="attendance_all_subjects" rowspan="2" data-field="student_{{ student.student.id }}_attendance_all" data-sortable="true">
+                      %
+                    </th>
                     {% for subject in data.subjects %}
-                      <th colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
+                      <th class="subject" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
 
                   {% for subject in data.subjects %}
                     {% for lesson in subject.lessons.all %}
-                    <th data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
+                    <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
                     {% endfor %}
-                    <th data-sortable="true">%</th>
+                    <th data-sortable="true" data-field="attendance_all_{{ forloop.counter }}_{{ subject.id }}">%</th>
                   {% endfor %}
                 </tr>
               </thead>
@@ -115,31 +120,29 @@
                         <i class="fa fa-star" aria-hidden="true"></i>
                       {% endif %}
                     </td>
-                      <td>{{ student.attendance_all_subjects }}</td>
-                      {% for subject in student.subjects %}
-                        {% for lesson in subject.attendance %}
-                        <td>
-                          {% if not lesson.attended %}
-                            <span class='non'>н</span>
-                          {% endif %}
-                        </td>
-                        {% endfor %}
-                        <td>
-                        {% if subject.attendance_overall < 25 %}
-                          <span class="att-percent red">{{ subject.attendance_overall }}</span>
+                    {% if student.attendance_all_subjects < 30 %}
+                      <td class="att-percent red">{{ student.attendance_all_subjects }}</td>
+                    {% else %}
+                      {% if student.attendance_all_subjects < 60 %}
+                        <td class="att-percent orange">{{ student.attendance_all_subjects }}</td>
+                      {% else %}
+                        {% if student.attendance_all_subjects < 75 %}
+                          <td class="att-percent yellow">{{ student.attendance_all_subjects }}</td>
                         {% else %}
-                          {% if subject.attendance_overall < 50 %}
-                            <span class="att-percent orange">{{ subject.attendance_overall }}</span>
-                          {% else %}
-                            {% if subject.attendance_overall < 75 %}
-                              <span class="att-percent yellow">{{ subject.attendance_overall }}</span>
-                            {% else %}
-                              <span class="att-percent green">{{ subject.attendance_overall }}</span>
-                            {% endif %}
-                          {% endif %}
+                          <td class="att-percent green">{{ student.attendance_all_subjects }}</td>
                         {% endif %}
-                        </td>
+                      {% endif %}
+                    {% endif %}
+                    {% for subject in student.subjects %}
+                      {% for lesson in subject.attendance %}
+                      <td>
+                        {% if not lesson.attended %}
+                          <span class='non'>н</span>
+                        {% endif %}
+                      </td>
                       {% endfor %}
+                      <td class="att-percent">{{ subject.attendance_overall }}</td>
+                    {% endfor %}
                   </tr>
                 {% endfor %}
               </tbody>
@@ -828,6 +831,8 @@
       self.attendanceTable = new self.AttendanceTable({
         table: $('#attendance_table')
       });
+      self.attendanceTable.table.bootstrapTable('hideColumn', 'attendance_all_subjects')
+      // ----------------------------------
     })
   })(this)
 
