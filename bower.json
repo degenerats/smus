@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "dependencies": {
     "jquery": "~2.1.1",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "bootstrap-select": "^1.10",
+    "bootstrap-datepicker": "^1.6.1",
+    "bootstrap-table": "^1.10.1",
+    "bootstrap-table-fixed-columns": "^1.0.0"
   }
 }

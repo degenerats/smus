@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account',
     'app',
+    'core',
     'pipeline',
 ]
 
@@ -50,6 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'account.middleware.AuthRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -135,6 +138,10 @@ PIPELINE = {
         'bower': {
             'source_filenames': (
               'bower_components/bootstrap/dist/css/bootstrap.css',
+              'bower_components/bootstrap-select/dist/css/bootstrap-select.css',
+              'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css',
+              'bower_components/bootstrap-table/dist/bootstrap-table.css',
+              'bower_components/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css',
             ),
             'output_filename': 'css/libs.css',
         },
@@ -150,6 +157,10 @@ PIPELINE = {
             'source_filenames': (
               'bower_components/jquery/dist/jquery.js',
               'bower_components/bootstrap/dist/js/bootstrap.js',
+              'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
+              'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
+              'bower_components/bootstrap-table/dist/bootstrap-table.js',
+              'bower_components/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js',
             ),
             'output_filename': 'js/libs.js',
         }
