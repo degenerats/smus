@@ -301,6 +301,9 @@
         <div class="content-coursework">
           <div class="top-controls">
             <div class="row">
+              <div class="col-md-2">
+                <button class="btn btn-default" onclick="window.courseworkTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+              </div>
               <div class="col-md-8">
                 <div class="filter-by">
                   <form class="form-inline">
@@ -317,14 +320,14 @@
               </div>
             </div>
           </div>
-          <div class="main-table" id="coursework_table">
-            <table data-toggle="table" data-sort-name="coursework" data-sort-order="desc">
+          <div class="main-table">
+            <table data-toggle="table" data-sort-name="coursework" id="coursework_table">
               <thead>
                 <tr>
                   <th class='coursework_student'>ФИО студента</th>
                   <th class='coursework_name'>Тема курсовой работы</th>
                   <th class='coursework_reviewer'>Научный руководитель</th>
-                  <th class='coursework_progress' data-sortable="true">Прогресс</th>
+                  <th class='coursework_progress' data-sortable="true" data-sorter="window.courseworkTable.sortByProgress">Прогресс</th>
                   <th class='coursework_date'>Дата обновления</th>
                   <th class='coursework_grade' data-sortable="true">Оценка</th>
                 </tr>
@@ -542,7 +545,7 @@
                   </td>
                   <td>
                     <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                         0%
                       </div>
                     </div>
@@ -564,6 +567,9 @@
         <div class="content-graduatework">
           <div class="top-controls">
             <div class="row">
+              <div class="col-md-2">
+                <button class="btn btn-default" onclick="window.graduateworkTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+              </div>
               <div class="col-md-4">
                 <div class="sort-by">
                   <div class="form-group">
@@ -578,16 +584,16 @@
               </div>
             </div>
           </div>
-          <div class="main-table" id="coursework_table">
-            <table data-toggle="table">
+          <div class="main-table">
+            <table data-toggle="table" data-sort-name="graduatework" id="graduatework_table">
               <thead>
                 <tr>
                   <th class='graduatework_student'>ФИО студента</th>
                   <th class='graduatework_name'>Тема дипломной работы</th>
                   <th class='graduatework_reviewer'>Научный руководитель</th>
-                  <th class='graduatework_progress'>Прогресс</th>
+                  <th class='graduatework_progress' data-sortable="true" data-sorter="window.graduateworkTable.sortByProgress">Прогресс</th>
                   <th class='graduatework_date'>Дата обновления</th>
-                  <th class='graduatework_grade'>Оценка</th>
+                  <th class='graduatework_grade' data-sortable="true">Оценка</th>
                 </tr>
               </thead>
               <tbody>
@@ -835,8 +841,20 @@
       // ----------------------------------
 
       // Init progress_table
-      self.progressTable = new self.ProgressTable({
+      self.progressTable = new self.Table({
         table: $('#progress_table')
+      });
+      // ----------------------------------
+
+      // Init coursework_table
+      self.courseworkTable = new self.WorkTable({
+        table: $('#coursework_table')
+      });
+      // ----------------------------------
+
+      // Init coursework_table
+      self.graduateworkTable = new self.WorkTable({
+        table: $('#graduatework_table')
       });
       // ----------------------------------
     })
