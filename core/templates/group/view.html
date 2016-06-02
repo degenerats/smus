@@ -155,6 +155,9 @@
         <div class="content-progress">
           <div class="top-controls">
             <div class="row">
+              <div class="col-md-2">
+                <button class="btn btn-default" onclick="window.progressTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+              </div>
               <div class="col-md-5">
                 <div class="filter-by">
                   <form class="form-inline">
@@ -171,11 +174,8 @@
               </div>
             </div>
           </div>
-          <div class="main-table" id="progress_table">
-            <table data-toggle="table"
-                   data-sort-name="progress"
-                   data-sort-order="desc"
-            >
+          <div class="main-table">
+            <table data-toggle="table" data-sort-name="progress" data-sort-order="desc" id="progress_table">
               <thead>
                 <tr>
                   <th class='progress_student' rowspan="2">ФИО студента</th>
@@ -832,6 +832,12 @@
         table: $('#attendance_table')
       });
       self.attendanceTable.table.bootstrapTable('hideColumn', 'attendance_all_subjects')
+      // ----------------------------------
+
+      // Init progress_table
+      self.progressTable = new self.ProgressTable({
+        table: $('#progress_table')
+      });
       // ----------------------------------
     })
   })(this)

@@ -17,3 +17,8 @@ class @AttendanceTable extends @Table
     @table.bootstrapTable('hideColumn', 'attendance_all_subjects')
     if @percent_checkbox
       @percent_checkbox.checked = false
+
+class @ProgressTable extends @Table
+  refreshTable: ()->
+    @table.bootstrapTable('destroy')
+    @table.bootstrapTable()

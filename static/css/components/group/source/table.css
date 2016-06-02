@@ -104,6 +104,7 @@
   th.progress_score {
     background-color: #E6FFEA;
     font-weight: bold;
+    width: 140px;
   }
 }
 .top-controls {
