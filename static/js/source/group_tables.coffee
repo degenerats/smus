@@ -8,7 +8,15 @@ class @Table
 
 class @AttendanceTable extends @Table
 
+  getSubjectIds: ->
+    self = @
+    @subject_ids = []
+    @table.find('th.subject').each ->
+      self.subject_ids.push $(@).data('field').substr(8, 1)
+
   showOnlyPercents: (checkbox) ->
+    $('.fixed-table-header-columns').remove() # fix duplicated
+    $('.fixed-table-body-columns').remove() # fix duplicated
     @percent_checkbox = checkbox
     if @percent_checkbox.checked
       @table.bootstrapTable('showColumn', 'attendance_all_subjects')
@@ -21,6 +29,12 @@ class @AttendanceTable extends @Table
     @table.bootstrapTable('hideColumn', 'attendance_all_subjects')
     if @percent_checkbox
       @percent_checkbox.checked = false
+    if @select_subject
+      @select_subject.selectpicker('val', 'all')
+
+  filterBySubject: (select) ->
+    # AJAX call here and table update
+
 
 class @WorkTable extends @Table
   sortByProgress: (a, b) ->

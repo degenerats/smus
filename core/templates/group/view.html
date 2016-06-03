@@ -32,7 +32,7 @@
         <div class="content-attendance">
           <div class="top-controls">
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-1">
                 <button class="btn btn-default" onclick="window.attendanceTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
               </div>
               <div class="col-md-2">
@@ -44,7 +44,7 @@
                   </div>
                 </form>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-6">
                 <div class="filter-by">
                   <form class="form-inline">
                     <div class="form-group">
@@ -55,12 +55,14 @@
                         <option>3 семестр</option>
                       </select>
                     </div>
-                    <div class="form-group">
-                      <div class="form-group">
-                        <label for="subject">Предмет</label>
-                        <input type="email" class="form-control" id="subject" placeholder="Название предмета">
-                      </div>
-                      <button type="submit" class="btn btn-default">Поиск</button>
+                    <div class="form-group subject-select">
+                      <label for="subject">Предмет</label>
+                      <select class="selectpicker" onchange="window.attendanceTable.filterBySubject(this)">
+                        <option value="all">Все предметы</option>
+                        {% for subject in data.subjects %}
+                          <option value="{{ subject.subject.id }}">{{ subject.subject.name }}</option>
+                        {% endfor %}
+                      </select>
                     </div>
                   </form>
                 </div>
@@ -99,7 +101,7 @@
                       %
                     </th>
                     {% for subject in data.subjects %}
-                      <th class="subject" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
+                      <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
@@ -108,7 +110,7 @@
                     {% for lesson in subject.lessons.all %}
                     <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
                     {% endfor %}
-                    <th data-sortable="true" data-field="attendance_all_{{ forloop.counter }}_{{ subject.id }}">%</th>
+                    <th data-sortable="true" data-field="attendance_all_{{ subject.id }}">%</th>
                   {% endfor %}
                 </tr>
               </thead>
@@ -837,7 +839,8 @@
       self.attendanceTable = new self.AttendanceTable({
         table: $('#attendance_table')
       });
-      self.attendanceTable.table.bootstrapTable('hideColumn', 'attendance_all_subjects')
+      self.attendanceTable.table.bootstrapTable('hideColumn', 'attendance_all_subjects');
+      self.attendanceTable.getSubjectIds();
       // ----------------------------------
 
       // Init progress_table
