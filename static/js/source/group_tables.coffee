@@ -8,12 +8,6 @@ class @Table
 
 class @AttendanceTable extends @Table
 
-  getSubjectIds: ->
-    self = @
-    @subject_ids = []
-    @table.find('th.subject').each ->
-      self.subject_ids.push $(@).data('field').substr(8, 1)
-
   showOnlyPercents: (checkbox) ->
     $('.fixed-table-header-columns').remove() # fix duplicated
     $('.fixed-table-body-columns').remove() # fix duplicated
