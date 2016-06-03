@@ -2,7 +2,11 @@
 
 from django.views.generic import DetailView, ListView
 
-from models import StudentGroup, Speciality
+from models import StudentGroup, Speciality, Staff
+
+class StaffView(DetailView):
+    model = Staff
+    template_name = 'staff/view.html'
 
 class GroupView(DetailView):
     model = StudentGroup
