@@ -50,17 +50,19 @@
                     <div class="form-group">
                       <label>Семестр</label>
                       <select class="selectpicker">
-                        <option>1 семестр</option>
-                        <option>2 семестр</option>
-                        <option>3 семестр</option>
+                          {% for semester in semesters_list %}
+                            <option value="{{ semester.number }}" {% if current_semester.number == semester.number %} selected="selected"{% endif %}>
+                                {{ semester.number }} семестр
+                            </option>
+                          {% endfor %}
                       </select>
                     </div>
                     <div class="form-group subject-select">
                       <label for="subject">Предмет</label>
                       <select class="selectpicker" onchange="window.attendanceTable.filterBySubject(this)">
                         <option value="all">Все предметы</option>
-                        {% for subject in data.subjects %}
-                          <option value="{{ subject.subject.id }}">{{ subject.subject.name }}</option>
+                        {% for subject in subjects_list %}
+                          <option value="{{ subject.id }}"{% if current_subject.id == subject.id %} selected="selected"{% endif %}>{{ subject.name }}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -72,7 +74,7 @@
                   <form class="form-inline">
                     <div class="form-group">
                       <div class="input-group date" data-provide="datepicker">
-                          <input type="text" id="from_date" class="form-control" placeholder="C">
+                          <input type="text" id="from_date" class="form-control" placeholder="C" value="{{ current_dates.0 }}">
                           <div class="input-group-addon">
                               <span class="glyphicon glyphicon-th"></span>
                           </div>
@@ -81,7 +83,7 @@
                     <span class="divider">-</span>
                     <div class="form-group">
                         <div class="input-group date" data-provide="datepicker">
-                            <input type="text" id="to_date" class="form-control" placeholder="По">
+                            <input type="text" id="to_date" class="form-control" placeholder="По" value="{{ current_dates.1 }}">
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
@@ -101,13 +103,13 @@
                       %
                     </th>
                     {% for subject in data.subjects %}
-                      <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.name }}</th>
+                      <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.subject.name }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
 
                   {% for subject in data.subjects %}
-                    {% for lesson in subject.lessons.all %}
+                    {% for lesson in subject.lessons %}
                     <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
                     {% endfor %}
                     <th data-sortable="true" data-field="attendance_all_{{ subject.id }}">%</th>
@@ -166,9 +168,12 @@
                     <div class="form-group">
                       <label>Семестр</label>
                       <select class="selectpicker">
-                        <option>1 семестр</option>
-                        <option>2 семестр</option>
-                        <option>3 семестр</option>
+                          {% for semester in semesters_list %}
+                            <option value="{{ semester.number }}"
+                                    {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                                {{ semester.number }} семестр
+                            </option>
+                          {% endfor %}
                       </select>
                     </div>
                   </form>

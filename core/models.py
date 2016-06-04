@@ -110,29 +110,45 @@ class StudentGroup(models.Model):
         else:
             return None
 
-    def get_subjects(self, semester):
+    def get_subjects(self, semester, subjects=None):
         if semester is None:
             return []
-        return semester.subjects.all()
+        if subjects is None:
+            return semester.subjects.all()
+        else:
+            return semester.subjects.filter(subject__in=subjects)
 
-    def get_table_data(self, semester):
+    def get_semester(self, number=None):
+        if number is None:
+            return self.current_semester
+        else:
+            try:
+                return Semester.objects.filter(group=self)[number-1]
+            except:
+                return None
+
+
+    def get_table_data(self, semester, subject, dates):
         Attendance = apps.get_model('attendance', 'attendance')
         if semester is None:
-            semester = self.current_semester()
+            semester = self.current_semester
             if semester is None:
                 return []
 
         data = {}
         students = self.students.all()
-        subjects = self.get_subjects(semester)
+        if subject is None:
+            subjects = self.get_subjects(semester)
+        else:
+            subjects = self.get_subjects(semester, [subject])
         students_data = []
-        student_data = []
         for student in students:
             subjects_data = []
             attendance_all_subjects = 0
             for subject in subjects:
                 attendance = []
-                lessons = subject.lessons.all()
+                lessons = subject.lessons.filter(date__range=dates)
+                print lessons
                 attendance_count = 0
                 for lesson in lessons:
                     a, created = Attendance.objects.get_or_create(
@@ -146,20 +162,28 @@ class StudentGroup(models.Model):
                     if a.attended:
                         attendance_count += 1
 
+                attendance_value = int(attendance_count*100.0/lessons.count()) if lessons.count() else 0
                 subjects_data.append({
                     'subject': subject,
                     'attendance': attendance,
-                    'attendance_overall': int(attendance_count*100.0/lessons.count()),
+                    'attendance_overall': attendance_value,
                 })
-                attendance_all_subjects += int(attendance_count*100.0/lessons.count())
+                attendance_all_subjects += attendance_value
             students_data.append({
                 'student': student,
                 'subjects': subjects_data,
-                'attendance_all_subjects': int(attendance_all_subjects/subjects.count())
+                'attendance_all_subjects': int(attendance_all_subjects/subjects.count()) if subjects.count() else 0
+            })
+
+        subjects_data_full = []
+        for subject in subjects:
+            subjects_data_full.append({
+                'subject': subject,
+                'lessons': subject.lessons.filter(date__range=dates)
             })
 
         data['students'] = students_data
-        data['subjects'] = subjects
+        data['subjects'] = subjects_data_full
         return data
 
     def __unicode__(self):
@@ -207,10 +231,10 @@ class Staff(models.Model):
 
 
 class SemesterConfiguration(SingletonModel):
-    first_semester_start = models.DateField(u'начало первого семестра')
-    first_semester_end = models.DateField(u'конец первого семестра')
-    second_semester_start = models.DateField(u'начало второго семестра')
-    second_semester_end = models.DateField(u'конец второго семестра')
+    first_semester_start = models.DateField(u'начало первого семестра', null=True)
+    first_semester_end = models.DateField(u'конец первого семестра', null=True)
+    second_semester_start = models.DateField(u'начало второго семестра', null=True)
+    second_semester_end = models.DateField(u'конец второго семестра', null=True)
 
     class Meta:
         verbose_name = u'настройки семестров'

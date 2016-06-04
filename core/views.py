@@ -1,26 +1,74 @@
 # -*- coding:utf-8 -*-
 
 from django.views.generic import DetailView, ListView
+from django.http import Http404
 
-from models import StudentGroup, Speciality, Staff, Student
+from models import StudentGroup, Speciality, Staff, Student, Subject
+
 
 class StaffView(DetailView):
     model = Staff
     template_name = 'staff/view.html'
 
+
 class StudentView(DetailView):
     model = Student
     template_name = 'student/view.html'
 
+
 class GroupView(DetailView):
     model = StudentGroup
     template_name = 'group/view.html'
+    semester = None
+
+    def get_semester(self):
+        semester_number = self.request.GET.get('semester', None)
+        if semester_number is not None:
+            semester_number = int(semester_number)
+        semester = self.object.get_semester(semester_number)
+        if semester is None:
+            raise Http404
+        return semester
+
+    def get_subject(self):
+        subject_id = self.request.GET.get('subject', None)
+        subject = None
+        if subject_id is not None:
+            try:
+                subject = Subject.objects.get(id=subject_id)
+            except Subject.DoesNotExist:
+                raise Http404
+            if not self.semester.subjects.filter(subject=subject):
+                raise Http404
+        return subject
+
+    def get_dates(self):
+        lessons_from = self.request.GET.get('from_date', None)
+        lessons_to = self.request.GET.get('to_date', None)
+        return lessons_from, lessons_to
 
     def get_context_data(self, **kwargs):
+        self.semester = self.get_semester()
+        self.subject = self.get_subject()
+        self.dates = self.get_dates()
         context = super(GroupView, self).get_context_data(**kwargs)
-        semester = self.object.current_semester
-        context['data'] = self.object.get_table_data(semester)
+        print self.dates
+        context['data'] = self.object.get_table_data(self.semester, self.subject, self.dates)
+        context['semesters_list'] = [
+            {'semester': s,
+             'number': s.number
+             } for s in self.object.semesters.all()
+        ]
+        context['subjects_list'] = [
+            {'name': s.subject.name,
+             'id': s.subject.id
+             } for s in self.semester.subjects.all()
+            ]
+        context['current_semester'] = self.semester
+        context['current_subject'] = self.subject
+        context['current_dates'] = self.dates
         return context
+
 
 class SpecialityView(ListView):
     model = Speciality
