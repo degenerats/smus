@@ -1,0 +1,126 @@
+<div class="content-attendance">
+  <div class="top-controls">
+    <div class="row">
+      <div class="col-md-1">
+        <button class="btn btn-default" onclick="window.attendanceTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+      </div>
+      <div class="col-md-2">
+        <form>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" onclick="window.attendanceTable.showOnlyPercents(this)"> % по всем дисцплинам
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div class="filter-by">
+          <form class="form-inline">
+            <div class="form-group">
+              <label>Семестр</label>
+              <select class="selectpicker">
+                  {% for semester in semesters_list %}
+                    <option value="{{ semester.number }}" {% if current_semester.number == semester.number %} selected="selected"{% endif %}>
+                        {{ semester.number }} семестр
+                    </option>
+                  {% endfor %}
+              </select>
+            </div>
+            <div class="form-group subject-select">
+              <label for="subject">Предмет</label>
+              <select class="selectpicker" onchange="window.attendanceTable.filterBySubject(this)">
+                <option value="all">Все предметы</option>
+                {% for subject in subjects_list %}
+                  <option value="{{ subject.id }}"{% if current_subject.id == subject.id %} selected="selected"{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="date-by">
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group date" data-provide="datepicker">
+                  <input type="text" id="from_date" class="form-control" placeholder="C" value="{% if current_dates.0 %}{{ current_dates.0 }}{% endif %}">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+              </div>
+            </div>
+            <span class="divider">-</span>
+            <div class="form-group">
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" id="to_date" class="form-control" placeholder="По" value="{% if current_dates.1 %}{{ current_dates.1 }}{% endif %}">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <div class="main-table">
+    <table data-toggle="table" id="attendance_table" data-fixed-columns="true" data-fixed-number="1" data-sort-name="attendance">
+      <thead>
+        <tr>
+            <th class="student_name" rowspan="2">ФИО студента/ Дисциплина</th>
+            <th class="attendance_overall"  data-field="attendance_all_subjects" rowspan="2" data-field="student_{{ student.student.id }}_attendance_all" data-sortable="true">
+              %
+            </th>
+            {% for subject in attendance_data.subjects %}
+
+              <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.subject.name }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+
+          {% for subject in attendance_data.subjects %}
+            {% for lesson in subject.lessons %}
+            <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
+            {% endfor %}
+            <th data-sortable="true" data-field="attendance_all_{{ subject.id }}">%</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in attendance_data.students %}
+          <tr>
+            <td><span class="count">{{ forloop.counter }}. </span>
+              <a href="{% url 'student' student.student.id %}">{{ student.student.last_name }} {{ student.student.first_name }}</a>
+              {% if forloop.counter == 4 %}
+                <i class="fa fa-star" aria-hidden="true"></i>
+              {% endif %}
+            </td>
+            {% if student.attendance_all_subjects < 30 %}
+              <td class="att-percent red">{{ student.attendance_all_subjects }}</td>
+            {% else %}
+              {% if student.attendance_all_subjects < 60 %}
+                <td class="att-percent orange">{{ student.attendance_all_subjects }}</td>
+              {% else %}
+                {% if student.attendance_all_subjects < 75 %}
+                  <td class="att-percent yellow">{{ student.attendance_all_subjects }}</td>
+                {% else %}
+                  <td class="att-percent green">{{ student.attendance_all_subjects }}</td>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            {% for subject in student.subjects %}
+              {% for lesson in subject.attendance %}
+              <td>
+                {% if not lesson.attended %}
+                  <span class='non'>н</span>
+                {% endif %}
+              </td>
+              {% endfor %}
+              <td class="att-percent">{{ subject.attendance_overall }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

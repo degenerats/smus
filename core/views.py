@@ -4,6 +4,7 @@ from django.views.generic import DetailView, ListView
 from django.http import Http404
 
 from models import StudentGroup, Speciality, Staff, Student, Subject
+from attendance.views import AttendanceMixin
 
 
 class StaffView(DetailView):
@@ -16,10 +17,20 @@ class StudentView(DetailView):
     template_name = 'student/view.html'
 
 
-class GroupView(DetailView):
+class GroupView(AttendanceMixin, DetailView):
     model = StudentGroup
     template_name = 'group/view.html'
     semester = None
+    subject = None
+    dates = None
+
+    def get_object(self, queryset=None):
+        obj = super(GroupView, self).get_object(queryset)
+        self.object = obj
+        self.semester = self.get_semester()
+        self.subject = self.get_subject()
+        self.dates = self.get_dates()
+        return obj
 
     def get_semester(self):
         semester_number = self.request.GET.get('semester', None)
@@ -48,12 +59,8 @@ class GroupView(DetailView):
         return lessons_from, lessons_to
 
     def get_context_data(self, **kwargs):
-        self.semester = self.get_semester()
-        self.subject = self.get_subject()
-        self.dates = self.get_dates()
         context = super(GroupView, self).get_context_data(**kwargs)
         print self.dates
-        context['data'] = self.object.get_table_data(self.semester, self.subject, self.dates)
         context['semesters_list'] = [
             {'semester': s,
              'number': s.number

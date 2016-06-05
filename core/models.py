@@ -182,9 +182,14 @@ class StudentGroup(models.Model):
 
         subjects_data_full = []
         for subject in subjects:
+            if dates[0]:
+                dates_query['date__gte'] = dates[0]
+            if dates[1]:
+                dates_query['date__lte'] = dates[1]
+            lessons = subject.lessons.filter(**dates_query)
             subjects_data_full.append({
                 'subject': subject,
-                'lessons': subject.lessons.filter(date__range=dates)
+                'lessons': lessons
             })
 
         data['students'] = students_data
