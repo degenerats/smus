@@ -3,6 +3,7 @@ from django.contrib import admin
 from solo.admin import SingletonModelAdmin
 
 from models import *
+from thesis.models import Thesis
 
 
 class StudentInline(admin.TabularInline):
@@ -14,6 +15,19 @@ class SubjectInline(admin.TabularInline):
     model = SemesterSubject
     extra = 0
     readonly_fields = ['subject', 'subject_type', 'progress_edit']
+
+
+class ThesisInline(admin.TabularInline):
+    model = Thesis
+    extra = 0
+    readonly_fields = ['student', 'last_change_date']
+    fields = ['student', 'topic', 'professor', 'progress', 'last_change_date']
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
@@ -39,7 +53,11 @@ class SpecialityAdmin(admin.ModelAdmin):
 
 class SemesterAdmin(admin.ModelAdmin):
     list_display = ['group', 'number']
-    inlines = SubjectInline,
+    inlines = SubjectInline, ThesisInline
+
+    def change_view(self, *args, **kwargs):
+        self.readonly_fields = ('group', )
+        return super(SemesterAdmin, self).change_view(*args, **kwargs)
 
 
 admin.site.register(Student, StudentAdmin)

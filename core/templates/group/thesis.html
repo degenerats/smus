@@ -1,0 +1,71 @@
+<div class="content-coursework">
+  <div class="top-controls">
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-default" onclick="window.courseworkTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+      </div>
+      <div class="col-md-8">
+        <div class="filter-by">
+          <form class="form-inline">
+            <div class="form-group">
+              <label>Семестр</label>
+              <select class="selectpicker">
+                  {% for semester in semesters_list %}
+                    <option value="{{ semester.number }}"
+                      {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                      {{ semester.number }} семестр
+                    </option>
+                  {% endfor %}
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-table">
+    <table data-toggle="table" data-sort-name="coursework" id="coursework_table">
+      <thead>
+        <tr>
+          <th class='coursework_student'>ФИО студента</th>
+          <th class='coursework_name'>Тема курсовой работы</th>
+          <th class='coursework_reviewer'>Научный руководитель</th>
+          <th class='coursework_progress' data-sortable="true" data-sorter="window.courseworkTable.sortByProgress">Прогресс</th>
+          <th class='coursework_date'>Дата обновления</th>
+          <th class='coursework_grade' data-sortable="true">Оценка</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for thesis in thesis_data %}
+        {% if thesis.topic %}
+        <tr>
+          <td class="student">
+            <span class="count">1. </span>
+            {{ thesis.student.last_name }} {{ thesis.student.first_name }}
+          </td>
+          <td>
+            {{ thesis.topic }}
+          </td>
+          <td>
+            {{ thesis.professor }}
+          </td>
+          <td>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 35%;">
+                {{ thesis.progress }}%
+              </div>
+            </div>
+          </td>
+          <td>
+            <span>{{ thesis.last_change_date|date:'d.m.Y' }}</span>
+          </td>
+          <td>
+            <span>&nbsp;</span>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

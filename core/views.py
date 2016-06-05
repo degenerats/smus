@@ -6,6 +6,7 @@ from django.http import Http404
 from models import StudentGroup, Speciality, Staff, Student, Subject
 from attendance.views import AttendanceMixin
 from progress.views import ProgressMixin
+from thesis.views import ThesisMixin
 
 
 class StaffView(DetailView):
@@ -18,7 +19,7 @@ class StudentView(DetailView):
     template_name = 'student/view.html'
 
 
-class GroupView(AttendanceMixin, ProgressMixin, DetailView):
+class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, DetailView):
     model = StudentGroup
     template_name = 'group/view.html'
     semester = None

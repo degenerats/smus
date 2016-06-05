@@ -23,12 +23,20 @@ class SemesterSubject(models.Model):
         ('credit', u'Зачёт'),
     )
 
-    semester = models.ForeignKey('Semester', related_name='subjects')
+    semester = models.ForeignKey('Semester', related_name='subjects', verbose_name=u'семестр')
     subject = models.ForeignKey('Subject', verbose_name=u'дисциплина')
     subject_type = models.CharField(u'тип экзамена', choices=EXAM_TYPES, max_length=20)
 
     def __unicode__(self):
         return '%s, %s' % (self.semester, self.subject)
+
+    def group(self):
+        return self.semester.group
+    group.short_description = u'группа'
+
+    def semester_display(self):
+        return '%s семестр' % self.semester.number
+    semester_display.short_description = u'семестр'
 
     def progress_edit(self):
         if self.id:
@@ -66,6 +74,15 @@ class Semester(models.Model):
                 return count
             else:
                 count += 1
+
+    def save(self, *args, **kwargs):
+        Thesis = apps.get_model('thesis', 'Thesis')
+        super(Semester, self).save(*args, **kwargs)
+        for student in self.group.students.all():
+            Thesis.objects.get_or_create(
+                student=student,
+                semester=self
+            )
 
     class Meta:
         verbose_name = u'семестр'
