@@ -103,16 +103,16 @@
                       %
                     </th>
                     {% for subject in data.subjects %}
-                      <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.lessons.all|length|add:'1' }}">{{ subject.subject.subject.name }}</th>
+                      <th class="subject" data-field="subject_{{ subject.subject.id }}" colspan="{{ subject.subject.lessons.all|length|add:'1' }}">{{ subject.subject.subject.name }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
 
                   {% for subject in data.subjects %}
                     {% for lesson in subject.lessons %}
-                    <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
+                    <th class="attendance_date" data-field="attendance_fact_{{ forloop.counter }}_{{ subject.subject.id }}">{{ lesson.date|date:"d.m.Y" }}</th>
                     {% endfor %}
-                    <th data-sortable="true" data-field="attendance_all_{{ subject.id }}">%</th>
+                    <th data-sortable="true" data-field="attendance_all_{{ subject.subject.id }}">%</th>
                   {% endfor %}
                 </tr>
               </thead>
@@ -146,7 +146,7 @@
                         {% endif %}
                       </td>
                       {% endfor %}
-                      <td class="att-percent">{{ subject.attendance_overall }}</td>
+                      <td class="att-percent">{{ subject.subject.attendance_overall }}</td>
                     {% endfor %}
                   </tr>
                 {% endfor %}
