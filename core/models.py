@@ -178,7 +178,7 @@ class Student(models.Model):
             student=self,
             subject__subject_type='exam'
         ).exclude(mark='').values_list('mark', flat=True))]
-        return sum(progress)*1.0/len(progress)
+        return sum(progress)*1.0/len(progress) if progress else ''
 
     @property
     def full_name(self):
