@@ -1,6 +1,6 @@
 {% extends 'page/base.html' %}
 
-{% block title %} МОТС-11 {% endblock %}
+{% block title %} {{ object.name }} {% endblock %}
 
 {% block breadcrumbs %}
 <nav role="breadcrumbs">
@@ -119,7 +119,8 @@
               <tbody>
                 {% for student in data.students %}
                   <tr>
-                    <td><span class="count">{{ forloop.counter }}. </span>{{ student.student.last_name }} {{ student.student.first_name }}
+                    <td><span class="count">{{ forloop.counter }}. </span>
+                      <a href="{% url 'student' student.student.id %}">{{ student.student.last_name }} {{ student.student.first_name }}</a>
                       {% if forloop.counter == 4 %}
                         <i class="fa fa-star" aria-hidden="true"></i>
                       {% endif %}
