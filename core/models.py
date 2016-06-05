@@ -127,7 +127,6 @@ class StudentGroup(models.Model):
             except:
                 return None
 
-
     def get_table_data(self, semester, subject, dates):
         Attendance = apps.get_model('attendance', 'attendance')
         if semester is None:
@@ -147,7 +146,13 @@ class StudentGroup(models.Model):
             attendance_all_subjects = 0
             for subject in subjects:
                 attendance = []
-                lessons = subject.lessons.filter(date__range=dates)
+
+                dates_query = {}
+                if dates[0]:
+                    dates_query['date__gte'] = dates[0]
+                if dates[1]:
+                    dates_query['date__lte'] = dates[1]
+                lessons = subject.lessons.filter(**dates_query)
                 print lessons
                 attendance_count = 0
                 for lesson in lessons:

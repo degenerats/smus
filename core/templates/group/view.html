@@ -74,7 +74,7 @@
                   <form class="form-inline">
                     <div class="form-group">
                       <div class="input-group date" data-provide="datepicker">
-                          <input type="text" id="from_date" class="form-control" placeholder="C" value="{{ current_dates.0 }}">
+                          <input type="text" id="from_date" class="form-control" placeholder="C" value="{% if current_dates.0 %}{{ current_dates.0 }}{% endif %}">
                           <div class="input-group-addon">
                               <span class="glyphicon glyphicon-th"></span>
                           </div>
@@ -83,7 +83,7 @@
                     <span class="divider">-</span>
                     <div class="form-group">
                         <div class="input-group date" data-provide="datepicker">
-                            <input type="text" id="to_date" class="form-control" placeholder="По" value="{{ current_dates.1 }}">
+                            <input type="text" id="to_date" class="form-control" placeholder="По" value="{% if current_dates.1 %}{{ current_dates.1 }}{% endif %}">
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
