@@ -309,12 +309,12 @@
   (function(){
     var self = this;
 
+
     $(document).ready(function() {
       // Init attendance_table
       self.attendanceTable = new self.AttendanceTable({
         table: $('#attendance_table')
       });
-      self.attendanceTable.table.bootstrapTable('hideColumn', 'attendance_all_subjects');
       // ----------------------------------
 
       // Init progress_table
@@ -332,6 +332,24 @@
       // Init coursework_table
       self.graduateworkTable = new self.WorkTable({
         table: $('#graduatework_table')
+      });
+      // ----------------------------------
+
+      // Localize datepicker
+      $.fn.datepicker.dates['ru'] = {
+          days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+          daysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+          daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+          months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+          monthsShort: ["Янв", "Фев", "Март", "Апр", "Май", "Ин", "Ил", "Авг", "Снт", "Окт", "Ноя", "Дек"],
+          today: "Сегодня",
+          clear: "Сбросить",
+          format: "dd/mm/yyyy",
+          titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+          weekStart: 1
+      };
+      $('.date').datepicker({
+          language: 'ru'
       });
       // ----------------------------------
     })

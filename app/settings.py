@@ -173,6 +173,7 @@ PIPELINE = {
         },
         'custom': {
             'source_filenames': (
+              'js/jquery.params.js',
               'js/scripts.min.js',
             ),
             'output_filename': 'js/scripts.min.js',
