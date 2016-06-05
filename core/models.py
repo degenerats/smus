@@ -2,7 +2,10 @@
 from __future__ import unicode_literals
 import datetime
 
+from django.utils.safestring import mark_safe
+
 from solo.models import SingletonModel
+
 
 from django.db import models
 from django.apps import apps
@@ -26,6 +29,22 @@ class SemesterSubject(models.Model):
 
     def __unicode__(self):
         return '%s, %s' % (self.semester, self.subject)
+
+    def progress_edit(self):
+        if self.id:
+            return mark_safe('<a href="/admin/core/semestersubject/%s/">Редактировать</a>' % self.id)
+        return ''
+
+    progress_edit.short_description = u'Успеваемость'
+
+    def save(self, *args, **kwargs):
+        Progress = apps.get_model('progress', 'Progress')
+        super(SemesterSubject, self).save(*args, **kwargs)
+        for student in self.semester.group.students.all():
+            Progress.objects.get_or_create(
+                student=student,
+                subject=self
+            )
 
     class Meta:
         verbose_name = u'экзамен'
@@ -143,6 +162,23 @@ class Student(models.Model):
 
     def __unicode__(self):
         return self.full_name
+
+    def get_progress(self, semestersubject):
+        Progress = apps.get_model('progress', 'Progress')
+        try:
+            progress = Progress.objects.get(student=self, subject=semestersubject)
+        except Progress.DoesNotExist:
+            return ''
+        else:
+            return progress.get_mark_display()
+
+    def get_total_progress(self):
+        Progress = apps.get_model('progress', 'Progress')
+        progress = [int(x) for x in list(Progress.objects.filter(
+            student=self,
+            subject__subject_type='exam'
+        ).exclude(mark='').values_list('mark', flat=True))]
+        return sum(progress)*1.0/len(progress)
 
     @property
     def full_name(self):

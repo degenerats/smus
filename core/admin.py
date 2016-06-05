@@ -13,6 +13,7 @@ class StudentInline(admin.TabularInline):
 class SubjectInline(admin.TabularInline):
     model = SemesterSubject
     extra = 0
+    readonly_fields = ['subject', 'subject_type', 'progress_edit']
 
 
 class StudentGroupAdmin(admin.ModelAdmin):

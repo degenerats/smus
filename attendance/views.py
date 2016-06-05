@@ -4,7 +4,7 @@ from models import Attendance
 
 
 class AttendanceMixin(object):
-    def get_table_data(self, semester, subject, dates):
+    def get_attendance_data(self, semester, subject, dates):
         if semester is None:
             semester = self.object.current_semester
             if semester is None:
@@ -29,7 +29,6 @@ class AttendanceMixin(object):
                 if dates[1]:
                     dates_query['date__lte'] = dates[1]
                 lessons = subject.lessons.filter(**dates_query)
-                print lessons
                 attendance_count = 0
                 for lesson in lessons:
                     a, created = Attendance.objects.get_or_create(
@@ -74,5 +73,5 @@ class AttendanceMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(AttendanceMixin, self).get_context_data(**kwargs)
-        context['attendance_data'] = self.get_table_data(self.semester, self.subject, self.dates)
+        context['attendance_data'] = self.get_attendance_data(self.semester, self.subject, self.dates)
         return context

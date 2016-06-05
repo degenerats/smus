@@ -1,0 +1,70 @@
+<div class="content-progress">
+  <div class="top-controls">
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-default" onclick="window.progressTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+      </div>
+      <div class="col-md-5">
+        <div class="filter-by">
+          <form class="form-inline">
+            <div class="form-group">
+              <label>Семестр</label>
+              <select class="selectpicker">
+                  {% for semester in semesters_list %}
+                    <option value="{{ semester.number }}"
+                            {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                        {{ semester.number }} семестр
+                    </option>
+                  {% endfor %}
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-table">
+    <table data-toggle="table" data-sort-name="progress" data-sort-order="desc" id="progress_table">
+      <thead>
+        <tr>
+          <th class='progress_student' rowspan="2">ФИО студента</th>
+          <th class='progress_score' rowspan="2" data-sortable="true">Средний балл</th>
+          <th class='progress_pass' colspan="{{ progress_data.subjects.exam|length }}">Зачеты</th>
+          <th class='progress_examen' colspan="{{ progress_data.subjects.credit|length }}">Экзамены</th>
+        </tr>
+        <tr>
+            {% for subject in progress_data.subjects.credit %}
+                <th class="sunbject_progress">{{ subject.subject.name }}</th>
+            {% empty %}
+                <th class="sunbject_progress">&nbsp;</th>
+            {% endfor %}
+            {% for subject in progress_data.subjects.exam %}
+                <th class="sunbject_progress">{{ subject.subject.name }}</th>
+            {% empty %}
+                <th class="sunbject_progress">&nbsp;</th>
+            {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in progress_data.students %}
+        <tr>
+          <td class="student">
+            <span class="count">{{ forloop.counter }}. </span>
+            {{ student.student.last_name }} {{ student.student.first_name }}
+          </td>
+          <td class="progress_score">{{ student.progress_overall }}</td>
+          {% if not progress_data.subjects.credit %}
+            <td><span class="pass pass-ok">&nbsp;</span></td>
+          {% endif %}
+          {% for subject in student.subjects %}
+            <td><span class="pass pass-ok">{{ subject.progress }}</span></td>
+          {% endfor %}
+          {% if not progress_data.subjects.exam %}
+            <td><span class="pass pass-ok">&nbsp;</span></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
