@@ -1,10 +1,37 @@
 class @Table
   constructor: (opt) ->
     @table = opt.table
+    @current_url = window.location.origin + window.location.pathname
 
   refreshTable: () ->
     @table.bootstrapTable('destroy')
     @table.bootstrapTable()
+
+  updateUrl: (url) ->
+    history.pushState
+      url: url
+
+  getParams: (request_params) ->
+    current_params = $.getQueryParameters window.location.search
+    new_params = $.getQueryParameters request_params
+    $.param $.extend(current_params, new_params)
+
+  ajaxRequest: (params) ->
+    self = @
+    request_params = @getParams params
+
+    $.ajax @current_url,
+      data: request_params,
+      beforeSend: =>
+        @table.bootstrapTable 'showLoading'
+      complete: (xhr, status) ->
+        self.table.bootstrapTable()
+        if status == 'success'
+          history.replaceState null, null, @.url
+      success: (data) =>
+        @table.bootstrapTable('destroy')
+        @table.html($(data).find("##{@table.attr('id')}").html())
+
 
 class @AttendanceTable extends @Table
 
@@ -27,6 +54,15 @@ class @AttendanceTable extends @Table
       @select_subject.selectpicker('val', 'all')
 
   filterBySubject: (select) ->
+    if select.value != 'all'
+      @ajaxRequest $(select).serialize()
+    else
+      window.location.search = window.location.search.replace(/&?subject=([^&]$|[^&]*)/i, "")
+
+  filterByDate: (select) ->
+    # AJAX call here and table update
+
+  filterBySemester: (select) ->
     # AJAX call here and table update
 
 
