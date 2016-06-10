@@ -9,7 +9,7 @@
           <form class="form-inline">
             <div class="form-group">
               <label>Семестр</label>
-              <select class="selectpicker">
+              <select class="selectpicker" name="semester" onchange="window.progressTable.filterBySemester(this)">
                   {% for semester in semesters_list %}
                     <option value="{{ semester.number }}"
                       {% if current_semester == semester.number %} selected="selected"{% endif %}>

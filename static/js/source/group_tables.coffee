@@ -11,14 +11,20 @@ class @Table
     history.pushState
       url: url
 
-  getParams: (request_params) ->
-    current_params = $.getQueryParameters window.location.search
+  filterBySemester: (select) ->
+    window.location.href = window.location.origin + window.location.pathname + '?' + $(datepicker).serialize()
+
+  getParams: (request_params, is_remove) ->
+    if is_remove
+      current_params = {}
+    else
+      current_params = $.getQueryParameters window.location.search
     new_params = $.getQueryParameters request_params
     $.param $.extend(current_params, new_params)
 
-  ajaxRequest: (params) ->
+  ajaxRequest: (params, is_semester_select = false) ->
     self = @
-    request_params = @getParams params
+    request_params = @getParams params, is_semester_select
 
     $.ajax @current_url,
       data: request_params,
@@ -47,7 +53,6 @@ class @AttendanceTable extends @Table
   refreshTable: () ->
     @table.bootstrapTable('destroy')
     @table.bootstrapTable()
-    @table.bootstrapTable('hideColumn', 'attendance_all_subjects')
     if @percent_checkbox
       @percent_checkbox.checked = false
     if @select_subject
@@ -55,16 +60,29 @@ class @AttendanceTable extends @Table
 
   filterBySubject: (select) ->
     if select.value != 'all'
+      # console.log 'dfdf'
       @ajaxRequest $(select).serialize()
     else
       window.location.search = window.location.search.replace(/&?subject=([^&]$|[^&]*)/i, "")
 
-  filterByDate: (select) ->
-    # AJAX call here and table update
+  filterByDate: (datepicker) ->
+    @ajaxRequest $(datepicker).serialize()
 
-  filterBySemester: (select) ->
-    # AJAX call here and table update
+  initDatePicker: (selector) ->
+    @datepicker = $(selector)
 
+    @datepicker.datepicker
+        language: 'ru'
+        # startDate: ->
+        #   console.log @.data('start-value')
+        #   @.data('start-value')
+        # endDate: ->
+        #   console.log @.data('end-value')
+        #   @.data('end-value')
+
+  listenOnChangeDate: () ->
+    @datepicker.on 'changeDate', () =>
+      @filterByDate(@)
 
 class @WorkTable extends @Table
   sortByProgress: (a, b) ->
