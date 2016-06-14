@@ -11,10 +11,12 @@
               <label>Семестр</label>
               <select class="selectpicker">
                   {% for semester in semesters_list %}
-                    <option value="{{ semester.number }}"
-                      {% if current_semester == semester.number %} selected="selected"{% endif %}>
-                      {{ semester.number }} семестр
-                    </option>
+                      {% if not semester.is_final %}
+                        <option value="{{ semester.number }}"
+                          {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                          {{ semester.number }} семестр
+                        </option>
+                      {% endif %}
                   {% endfor %}
               </select>
             </div>

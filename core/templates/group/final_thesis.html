@@ -1,0 +1,66 @@
+<div class="content-graduatework">
+  <div class="top-controls">
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-default" onclick="window.graduateworkTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
+      </div>
+      <div class="col-md-4">
+        <div class="sort-by">
+          <div class="form-group">
+            <label for="sort">Сортировать по</label>
+            <select class="selectpicker">
+              <option>Прогресс(возрастание)</option>
+              <option>Прогресс(убывание)</option>
+              <option>Алфавиту</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-table">
+    <table data-toggle="table" data-sort-name="graduatework" id="graduatework_table">
+      <thead>
+        <tr>
+          <th class='graduatework_student'>ФИО студента</th>
+          <th class='graduatework_name'>Тема дипломной работы</th>
+          <th class='graduatework_reviewer'>Научный руководитель</th>
+          <th class='graduatework_progress' data-sortable="true" data-sorter="window.graduateworkTable.sortByProgress">Прогресс</th>
+          <th class='graduatework_date'>Дата обновления</th>
+          <th class='graduatework_grade' data-sortable="true">Оценка</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for thesis in final_thesis_data %}
+        {% if thesis.topic %}
+        <tr>
+          <td class="student">
+            <span class="count">1. </span>
+            {{ thesis.student.last_name }} {{ thesis.student.first_name }}
+          </td>
+          <td>
+            {{ thesis.topic }}
+          </td>
+          <td>
+            {{ thesis.professor }}
+          </td>
+          <td>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{ thesis.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ thesis.progress }}%;">
+                {{ thesis.progress }}%
+              </div>
+            </div>
+          </td>
+          <td>
+            <span>{{ thesis.last_change_date|date:'d.m.Y' }}</span>
+          </td>
+          <td>
+            <span>&nbsp;</span>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

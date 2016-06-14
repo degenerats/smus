@@ -29,6 +29,7 @@ class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, DetailView):
     def get_object(self, queryset=None):
         obj = super(GroupView, self).get_object(queryset)
         self.object = obj
+        self.group = obj
         self.semester = self.get_semester()
         self.subject = self.get_subject()
         self.dates = self.get_dates()
