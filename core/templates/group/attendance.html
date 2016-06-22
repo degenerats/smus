@@ -18,7 +18,7 @@
           <form class="form-inline">
             <div class="form-group">
               <label>Семестр</label>
-              <select class="selectpicker">
+              <select class="selectpicker" name="semester" onchange="window.attendanceTable.filterBySemester(this)">
                   {% for semester in semesters_list %}
                     <option value="{{ semester.number }}" {% if current_semester.number == semester.number %} selected="selected"{% endif %}>
                         {{ semester.number }} семестр
@@ -43,7 +43,7 @@
           <form class="form-inline">
             <div class="form-group">
               <div class="input-group date" data-provide="datepicker">
-                  <input type="text" id="from_date" class="form-control" placeholder="C" value="{% if current_dates.0 %}{{ current_dates.0 }}{% endif %}">
+                  <input type="text" name="from_date" id="from_date" class="form-control" placeholder="C" onchange="window.attendanceTable.filterByDate(this)" data-start-value="{% if current_dates.0 %}{{ current_dates.0 }}{% endif %}">
                   <div class="input-group-addon">
                       <span class="glyphicon glyphicon-th"></span>
                   </div>
@@ -52,7 +52,7 @@
             <span class="divider">-</span>
             <div class="form-group">
                 <div class="input-group date" data-provide="datepicker">
-                    <input type="text" id="to_date" class="form-control" placeholder="По" value="{% if current_dates.1 %}{{ current_dates.1 }}{% endif %}">
+                    <input type="text" name="to_date" id="to_date" class="form-control" placeholder="По" onchange="window.attendanceTable.filterByDate(this)" data-form-value="{% if current_dates.1 %}{{ current_dates.1 }}{% endif %}">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -91,9 +91,9 @@
           <tr>
             <td><span class="count">{{ forloop.counter }}. </span>
               <a href="{% url 'student' student.student.id %}">{{ student.student.last_name }} {{ student.student.first_name }}</a>
-              {% if forloop.counter == 4 %}
+              <!-- {% if forloop.counter == 4 %}
                 <i class="fa fa-star" aria-hidden="true"></i>
-              {% endif %}
+              {% endif %} -->
             </td>
             {% if student.attendance_all_subjects < 30 %}
               <td class="att-percent red">{{ student.attendance_all_subjects }}</td>

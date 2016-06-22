@@ -4,8 +4,6 @@
 
 {% block nav %}
   <ul class="nav navbar-nav">
-    <li><a href="{% url 'home' %}">Главная</a></li>
-    <li><a href="#">Поиск</a></li>
     {% if speciality_type == 'Бакалавриат' %}
       <li class="active"><span>Бакалавриат</span></li>
       <li><a href="{% url 'speciality' 'magister' %}">Магистратура</a></li>
@@ -20,7 +18,6 @@
 <nav role="breadcrumbs">
   <div class="container">
     <ol class="breadcrumb">
-        <li><a href="{% url 'home' %}">Главная</a></li>
         <li class="active">{{ speciality_type }}</li>
     </ol>
   </div>

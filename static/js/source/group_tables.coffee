@@ -1,24 +1,40 @@
 class @Table
   constructor: (opt) ->
     @table = opt.table
-    @current_url = window.location.origin + window.location.pathname
+    @params = {}
 
   refreshTable: () ->
     @table.bootstrapTable('destroy')
     @table.bootstrapTable()
 
-  updateUrl: (url) ->
-    history.pushState
-      url: url
+  refreshTopControls: () ->
+    try
+      @table.parents('.tab-pane').find('.top-controls').find('[name="subject"]').selectpicker 'refresh'
+    catch
+    try
+      @table.parents('.tab-pane').find('.top-controls').find('[name="semester"]').selectpicker 'refresh'
+    catch
 
-  getParams: (request_params) ->
-    current_params = $.getQueryParameters window.location.search
+  filterBySemester: (select) ->
+    @ajaxRequest $(select).serialize(), true
+
+  getParams: (request_params, is_remove) ->
+    if is_remove
+      @params = {}
+
     new_params = $.getQueryParameters request_params
-    $.param $.extend(current_params, new_params)
 
-  ajaxRequest: (params) ->
+    if !request_params
+      if @params.hasOwnProperty 'subject'
+        delete @params.subject
+      if new_params.hasOwnProperty 'subject'
+        delete @params.subject
+
+    $.param $.extend(@params, new_params)
+
+  ajaxRequest: (params, is_semester_select = false) ->
     self = @
-    request_params = @getParams params
+    request_params = @getParams params, is_semester_select
 
     $.ajax @current_url,
       data: request_params,
@@ -26,12 +42,12 @@ class @Table
         @table.bootstrapTable 'showLoading'
       complete: (xhr, status) ->
         self.table.bootstrapTable()
-        if status == 'success'
-          history.replaceState null, null, @.url
       success: (data) =>
+        table_new = $(data).find("##{@table.attr('id')}")
         @table.bootstrapTable('destroy')
-        @table.html($(data).find("##{@table.attr('id')}").html())
-
+        @table.html table_new.html()
+        @table.parents('.tab-pane').find('.top-controls').replaceWith(table_new.parents('.tab-pane').find('.top-controls'))
+        @refreshTopControls()
 
 class @AttendanceTable extends @Table
 
@@ -47,7 +63,6 @@ class @AttendanceTable extends @Table
   refreshTable: () ->
     @table.bootstrapTable('destroy')
     @table.bootstrapTable()
-    @table.bootstrapTable('hideColumn', 'attendance_all_subjects')
     if @percent_checkbox
       @percent_checkbox.checked = false
     if @select_subject
@@ -57,14 +72,26 @@ class @AttendanceTable extends @Table
     if select.value != 'all'
       @ajaxRequest $(select).serialize()
     else
-      window.location.search = window.location.search.replace(/&?subject=([^&]$|[^&]*)/i, "")
+      @ajaxRequest null
 
-  filterByDate: (select) ->
-    # AJAX call here and table update
+  filterByDate: (datepicker) ->
+    @ajaxRequest $(datepicker).serialize()
 
-  filterBySemester: (select) ->
-    # AJAX call here and table update
+  initDatePicker: (selector) ->
+    @datepicker = $(selector)
 
+    @datepicker.datepicker
+        language: 'ru'
+        # startDate: ->
+        #   console.log @.data('start-value')
+        #   @.data('start-value')
+        # endDate: ->
+        #   console.log @.data('end-value')
+        #   @.data('end-value')
+
+  listenOnChangeDate: () ->
+    @datepicker.on 'changeDate', () =>
+      @filterByDate(@)
 
 class @WorkTable extends @Table
   sortByProgress: (a, b) ->

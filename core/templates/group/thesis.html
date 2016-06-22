@@ -9,11 +9,11 @@
           <form class="form-inline">
             <div class="form-group">
               <label>Семестр</label>
-              <select class="selectpicker">
+              <select class="selectpicker" name="semester" onchange="window.courseworkTable.filterBySemester(this)">
                   {% for semester in semesters_list %}
                       {% if not semester.is_final %}
                         <option value="{{ semester.number }}"
-                          {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                          {% if current_semester.number == semester.number %} selected="selected"{% endif %}>
                           {{ semester.number }} семестр
                         </option>
                       {% endif %}
@@ -42,8 +42,11 @@
         {% if thesis.topic %}
         <tr>
           <td class="student">
-            <span class="count">1. </span>
-            {{ thesis.student.last_name }} {{ thesis.student.first_name }}
+            <span class="count">{{ forloop.counter }}. </span>
+            <a href="{% url 'student' thesis.student.id %}">{{ thesis.student.last_name }} {{ thesis.student.first_name }}</a>
+            <!-- {% if forloop.counter == 4 %}
+              <i class="fa fa-star" aria-hidden="true"></i>
+            {% endif %} -->
           </td>
           <td>
             {{ thesis.topic }}

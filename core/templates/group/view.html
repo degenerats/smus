@@ -6,7 +6,6 @@
 <nav role="breadcrumbs">
   <div class="container">
     <ol class="breadcrumb">
-        <li><a href="{% url 'home' %}">Главная</a></li>
         <li class="active">{{ object.name }}</li>
     </ol>
   </div>
@@ -22,7 +21,7 @@
       <li role="presentation" class="active"><a href="#attendance" aria-controls="attendance" role="tab" data-toggle="tab">Посещаемость</a></li>
       <li role="presentation"><a href="#progress" aria-controls="progress" role="tab" data-toggle="tab">Успеваемость</a></li>
       <li role="presentation"><a href="#coursework" aria-controls="coursework" role="tab" data-toggle="tab">Курсовые работы</a></li>
-      <li role="presentation"><a href="#graduatework" aria-controls="graduatework" role="tab"{% if final_thesis_data %} data-toggle="tab"{% endif %}>Дипломные работы</a></li>
+      <li role="presentation"><a href="#graduatework" aria-controls="graduatework" role="tab"{% if final_thesis_data %} data-toggle="tab"{% else %} class="inactive" {% endif %}>Дипломные работы</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -49,12 +48,26 @@
   (function(){
     var self = this;
 
-
+    $.fn.datepicker.dates['ru'] = {
+        days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+        daysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        monthsShort: ["Янв", "Фев", "Март", "Апр", "Май", "Ин", "Ил", "Авг", "Снт", "Окт", "Ноя", "Дек"],
+        today: "Сегодня",
+        clear: "Сбросить",
+        format: "dd/mm/yyyy",
+        titleFormat: "MM yyyy",
+        weekStart: 1
+    }
+    
     $(document).ready(function() {
       // Init attendance_table
       self.attendanceTable = new self.AttendanceTable({
         table: $('#attendance_table')
       });
+      self.attendanceTable.initDatePicker('.date');
+      self.attendanceTable.listenOnChangeDate();
       // ----------------------------------
 
       // Init progress_table
@@ -72,24 +85,6 @@
       // Init coursework_table
       self.graduateworkTable = new self.WorkTable({
         table: $('#graduatework_table')
-      });
-      // ----------------------------------
-
-      // Localize datepicker
-      $.fn.datepicker.dates['ru'] = {
-          days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-          daysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-          daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-          months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-          monthsShort: ["Янв", "Фев", "Март", "Апр", "Май", "Ин", "Ил", "Авг", "Снт", "Окт", "Ноя", "Дек"],
-          today: "Сегодня",
-          clear: "Сбросить",
-          format: "dd/mm/yyyy",
-          titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-          weekStart: 1
-      };
-      $('.date').datepicker({
-          language: 'ru'
       });
       // ----------------------------------
     })
