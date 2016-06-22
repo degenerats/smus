@@ -21,7 +21,7 @@ class ThesisMixin(object):
         for thesis in thesis_data:
             ws.write(students_i, 0, '%s %s' % (thesis.student.last_name, thesis.student.first_name))
             ws.write(students_i, 1, thesis.topic)
-            ws.write(students_i, 2, thesis.professor.__unicode__())
+            ws.write(students_i, 2, thesis.professor.__unicode__() if thesis.professor else '')
             ws.write(students_i, 3, '%s%%' % thesis.progress)
             ws.write(students_i, 4, date(thesis.last_change_date, 'd.m.Y'))
             ws.write(students_i, 5, '')
@@ -52,7 +52,7 @@ class ThesisMixin(object):
             for thesis in final_thesis_data:
                 ws.write(students_i, 0, '%s %s' % (thesis.student.last_name, thesis.student.first_name))
                 ws.write(students_i, 1, thesis.topic)
-                ws.write(students_i, 2, thesis.professor.__unicode__())
+                ws.write(students_i, 2, thesis.professor.__unicode__() if thesis.professor else '')
                 ws.write(students_i, 3, '%s%%' % thesis.progress)
                 ws.write(students_i, 4, date(thesis.last_change_date, 'd.m.Y'))
                 ws.write(students_i, 5, '')
