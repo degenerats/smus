@@ -74,6 +74,7 @@ class ProgressMixin(object):
             for subject in student['subjects']:
                 ws.write(students_i, students_i_2, subject['progress'])
                 students_i_2 += 1
+            students_i += 1
         return workbook
 
 

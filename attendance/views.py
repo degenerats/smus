@@ -108,6 +108,7 @@ class AttendanceMixin(object):
                     students_i_2 += 1
                 ws.write(students_i, students_i_2, subject['attendance_overall'])
                 students_i_2 += 1
+            students_i += 1
         return workbook
 
     def get_context_data(self, **kwargs):
