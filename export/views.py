@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import xlwt
+from transliterate import translit
 
 from django.views.generic import DetailView, ListView
 from django.http import HttpResponse
@@ -37,8 +38,8 @@ class AttendanceExport(AttendanceMixin, ProgressMixin, ThesisMixin, MainMixin, D
 
         wb = self.write_xls()
 
-
+        filename = translit(self.object.name, 'ru', reversed=True)
         response = HttpResponse(content_type="application/ms-excel")
-        response['Content-Disposition'] = 'attachment; filename=%s.xls' % 'attendance'
+        response['Content-Disposition'] = u'attachment; filename=%s.xls' % filename
         wb.save(response)
         return response

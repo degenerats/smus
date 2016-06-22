@@ -4,3 +4,4 @@ MySQL-python
 django-pipeline
 django-solo
 xlwt
+transliterate
