@@ -75,6 +75,24 @@ class Semester(models.Model):
             else:
                 count += 1
 
+    @property
+    def dates(self):
+        SemesterConfiguration = apps.get_model('core', 'SemesterConfiguration')
+        conf = SemesterConfiguration.objects.get()
+        if self.number % 2 == 0:
+            return [conf.second_semester_start, conf.second_semester_end]
+        else:
+            return [conf.first_semester_start, conf.first_semester_end]
+
+    @property
+    def is_final(self):
+        if self.group.speciality.speciality_type == 'bachelor' and self.number == 8:
+            return True
+        elif self.group.speciality.speciality_type == 'magister' and self.number == 4:
+            return True
+        else:
+            return False
+
     def save(self, *args, **kwargs):
         Thesis = apps.get_model('thesis', 'Thesis')
         super(Semester, self).save(*args, **kwargs)
@@ -145,6 +163,13 @@ class StudentGroup(models.Model):
             return last_semester
         else:
             return None
+
+    @property
+    def get_final_semester(self):
+        for semester in self.semesters.all():
+            if semester.is_final:
+                return semester
+        return None
 
     def get_subjects(self, semester, subjects=None):
         if semester is None:
