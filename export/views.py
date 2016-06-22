@@ -21,13 +21,14 @@ class StudentView(DetailView):
     template_name = 'student/view.html'
 
 
-class AttendanceExport(AttendanceMixin, ProgressMixin, MainMixin, DetailView):
+class AttendanceExport(AttendanceMixin, ProgressMixin, ThesisMixin, MainMixin, DetailView):
     model = StudentGroup
 
     def write_xls(self):
         wb = xlwt.Workbook()
         workbook = AttendanceMixin.write_xls(self, wb)
-        workbook = ProgressMixin.write_xls(self, wb)
+        workbook = ProgressMixin.write_xls(self, workbook)
+        workbook = ThesisMixin.write_xls(self, workbook)
         return workbook
 
     def get(self, request, *args, **kwargs):

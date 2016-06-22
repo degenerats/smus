@@ -79,7 +79,7 @@ class AttendanceMixin(object):
 
         ws.write_merge(0, 1, 0, 0, u'ФИО студента/ Дисциплина')
         ws.write_merge(0, 1, 1, 1, u'%')
-        ws.col(0).width = 400 * 20
+        ws.col(0).width = 500 * 20
         ws.col(1).width = 50 * 20
         thead_i = 1
         for subject in attendance_data['subjects']:
@@ -98,7 +98,7 @@ class AttendanceMixin(object):
 
         students_i = 2
         for student in attendance_data['students']:
-            ws.write(students_i, 0, student['student'].first_name)
+            ws.write(students_i, 0, '%s %s' % (student['student'].last_name, student['student'].first_name))
             ws.write(students_i, 1, student['attendance_all_subjects'])
             students_i_2 = 2
             for subject in student['subjects']:

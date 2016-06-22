@@ -14,7 +14,7 @@
 
 
 {% block content %}
-  <h1 class="page-header">{{ object.name }}</h1>
+  <h1 class="page-header">{{ object.name }}</h1> <a href="{% url 'export:group' object.id %}">Экспорт в Excel</a>
   <div class="group-view">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">

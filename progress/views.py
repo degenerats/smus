@@ -48,7 +48,7 @@ class ProgressMixin(object):
 
         ws.write_merge(0, 1, 0, 0, u'ФИО студента')
         ws.write_merge(0, 1, 1, 1, u'Средний балл')
-        ws.col(0).width = 250 * 20
+        ws.col(0).width = 500 * 20
         ws.col(1).width = 200 * 20
         thead_i = 1
         for kind in ['credit', 'exam']:
@@ -65,7 +65,7 @@ class ProgressMixin(object):
 
         students_i = 2
         for student in progress_data['students']:
-            ws.write(students_i, 0, student['student'].first_name)
+            ws.write(students_i, 0, '%s %s' % (student['student'].last_name, student['student'].first_name))
             ws.write(students_i, 1, student['progress_overall'])
             students_i_2 = 2
 
