@@ -19,21 +19,10 @@ class StudentView(DetailView):
     template_name = 'student/view.html'
 
 
-class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, DetailView):
-    model = StudentGroup
-    template_name = 'group/view.html'
+class MainMixin(object):
     semester = None
     subject = None
     dates = None
-
-    def get_object(self, queryset=None):
-        obj = super(GroupView, self).get_object(queryset)
-        self.object = obj
-        self.group = obj
-        self.semester = self.get_semester()
-        self.subject = self.get_subject()
-        self.dates = self.get_dates()
-        return obj
 
     def get_semester(self):
         semester_number = self.request.GET.get('semester', None)
@@ -61,8 +50,17 @@ class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, DetailView):
         lessons_to = self.request.GET.get('to_date', None)
         return lessons_from, lessons_to
 
+    def get_object(self, queryset=None):
+        obj = super(MainMixin, self).get_object(queryset)
+        self.object = obj
+        self.group = obj
+        self.semester = self.get_semester()
+        self.subject = self.get_subject()
+        self.dates = self.get_dates()
+        return obj
+
     def get_context_data(self, **kwargs):
-        context = super(GroupView, self).get_context_data(**kwargs)
+        context = super(MainMixin, self).get_context_data(**kwargs)
         print self.dates
         context['semesters_list'] = [
             {'semester': s,
@@ -78,6 +76,11 @@ class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, DetailView):
         context['current_subject'] = self.subject
         context['current_dates'] = self.dates
         return context
+
+
+class GroupView(AttendanceMixin, ProgressMixin, ThesisMixin, MainMixin, DetailView):
+    model = StudentGroup
+    template_name = 'group/view.html'
 
 
 class SpecialityView(ListView):

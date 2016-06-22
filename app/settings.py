@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'core',
     'attendance',
     'progress',
-    'thesis'
+    'thesis',
+    'export'
 ]
 
 MIDDLEWARE_CLASSES = [

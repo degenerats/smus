@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^auth/', include('account.urls', namespace='account')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('core.urls')),
+    url(r'^', include('export.urls', namespace='export')),
 ]
