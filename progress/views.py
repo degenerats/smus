@@ -53,7 +53,7 @@ class ProgressMixin(object):
         thead_i = 1
         for kind in ['credit', 'exam']:
             length = len(progress_data['subjects'][kind])
-            ws.write_merge(0, 0, thead_i+1, thead_i+length, u'Экзамены' if kind == 'exam' else u'Зачёты')
+            # ws.write_merge(0, 0, thead_i+1, thead_i+length, u'Экзамены' if kind == 'exam' else u'Зачёты')
 
             thead_i_2 = thead_i+1
             for subject in progress_data['subjects'][kind]:
