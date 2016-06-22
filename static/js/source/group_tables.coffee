@@ -1,26 +1,36 @@
 class @Table
   constructor: (opt) ->
     @table = opt.table
-    @current_url = window.location.origin + window.location.pathname
+    @params = {}
 
   refreshTable: () ->
     @table.bootstrapTable('destroy')
     @table.bootstrapTable()
 
-  updateUrl: (url) ->
-    history.pushState
-      url: url
+  refreshTopControls: () ->
+    try
+      @table.parents('.tab-pane').find('.top-controls').find('[name="subject"]').selectpicker 'refresh'
+    catch
+    try
+      @table.parents('.tab-pane').find('.top-controls').find('[name="semester"]').selectpicker 'refresh'
+    catch
 
   filterBySemester: (select) ->
-    window.location.href = window.location.origin + window.location.pathname + '?' + $(datepicker).serialize()
+    @ajaxRequest $(select).serialize(), true
 
   getParams: (request_params, is_remove) ->
     if is_remove
-      current_params = {}
-    else
-      current_params = $.getQueryParameters window.location.search
+      @params = {}
+
     new_params = $.getQueryParameters request_params
-    $.param $.extend(current_params, new_params)
+
+    if !request_params
+      if @params.hasOwnProperty 'subject'
+        delete @params.subject
+      if new_params.hasOwnProperty 'subject'
+        delete @params.subject
+
+    $.param $.extend(@params, new_params)
 
   ajaxRequest: (params, is_semester_select = false) ->
     self = @
@@ -32,12 +42,12 @@ class @Table
         @table.bootstrapTable 'showLoading'
       complete: (xhr, status) ->
         self.table.bootstrapTable()
-        if status == 'success'
-          history.replaceState null, null, @.url
       success: (data) =>
+        table_new = $(data).find("##{@table.attr('id')}")
         @table.bootstrapTable('destroy')
-        @table.html($(data).find("##{@table.attr('id')}").html())
-
+        @table.html table_new.html()
+        @table.parents('.tab-pane').find('.top-controls').replaceWith(table_new.parents('.tab-pane').find('.top-controls'))
+        @refreshTopControls()
 
 class @AttendanceTable extends @Table
 
@@ -60,10 +70,9 @@ class @AttendanceTable extends @Table
 
   filterBySubject: (select) ->
     if select.value != 'all'
-      # console.log 'dfdf'
       @ajaxRequest $(select).serialize()
     else
-      window.location.search = window.location.search.replace(/&?subject=([^&]$|[^&]*)/i, "")
+      @ajaxRequest null
 
   filterByDate: (datepicker) ->
     @ajaxRequest $(datepicker).serialize()

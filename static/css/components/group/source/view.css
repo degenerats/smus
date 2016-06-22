@@ -9,6 +9,16 @@
   }
 }
 
+.nav.nav-tabs {
+   > li > a.inactive {
+     color: gray;
+     opacity: 0.7;
+     cursor: default;
+     background-color: transparent;
+     border-color: transparent;
+   }
+}
+
 /*Верхние фильтры*/
 .top-controls {
   .form-group, .checkbox {

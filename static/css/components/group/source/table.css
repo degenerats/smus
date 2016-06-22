@@ -1,5 +1,5 @@
 .main-table {
-  th.student_name {
+  th.student_name, td.student {
     width: 200px;
   }
   .fa-star {

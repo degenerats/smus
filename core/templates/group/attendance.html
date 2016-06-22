@@ -52,7 +52,6 @@
             <span class="divider">-</span>
             <div class="form-group">
                 <div class="input-group date" data-provide="datepicker">
-                    {% if current_dates.1 %}{{ current_dates.1 }}{% endif %}
                     <input type="text" name="to_date" id="to_date" class="form-control" placeholder="По" onchange="window.attendanceTable.filterByDate(this)" data-form-value="{% if current_dates.1 %}{{ current_dates.1 }}{% endif %}">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
@@ -92,9 +91,9 @@
           <tr>
             <td><span class="count">{{ forloop.counter }}. </span>
               <a href="{% url 'student' student.student.id %}">{{ student.student.last_name }} {{ student.student.first_name }}</a>
-              {% if forloop.counter == 4 %}
+              <!-- {% if forloop.counter == 4 %}
                 <i class="fa fa-star" aria-hidden="true"></i>
-              {% endif %}
+              {% endif %} -->
             </td>
             {% if student.attendance_all_subjects < 30 %}
               <td class="att-percent red">{{ student.attendance_all_subjects }}</td>

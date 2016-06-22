@@ -4,18 +4,6 @@
       <div class="col-md-2">
         <button class="btn btn-default" onclick="window.graduateworkTable.refreshTable()"><i class="glyphicon glyphicon-refresh"></i> Сбросить</button>
       </div>
-      <div class="col-md-4">
-        <div class="sort-by">
-          <div class="form-group">
-            <label for="sort">Сортировать по</label>
-            <select class="selectpicker">
-              <option>Прогресс(возрастание)</option>
-              <option>Прогресс(убывание)</option>
-              <option>Алфавиту</option>
-            </select>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="main-table">
@@ -35,8 +23,11 @@
         {% if thesis.topic %}
         <tr>
           <td class="student">
-            <span class="count">1. </span>
-            {{ thesis.student.last_name }} {{ thesis.student.first_name }}
+            <span class="count">{{ forloop.counter }}. </span>
+            <a href="{% url 'student' thesis.student.id %}">{{ thesis.student.last_name }} {{ thesis.student.first_name }}</a>
+            <!-- {% if forloop.counter == 4 %}
+              <i class="fa fa-star" aria-hidden="true"></i>
+            {% endif %} -->
           </td>
           <td>
             {{ thesis.topic }}

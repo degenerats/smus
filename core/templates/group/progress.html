@@ -12,7 +12,7 @@
               <select class="selectpicker" name="semester" onchange="window.progressTable.filterBySemester(this)">
                   {% for semester in semesters_list %}
                     <option value="{{ semester.number }}"
-                            {% if current_semester == semester.number %} selected="selected"{% endif %}>
+                            {% if current_semester.number == semester.number %} selected="selected"{% endif %}>
                         {{ semester.number }} семестр
                     </option>
                   {% endfor %}
@@ -50,7 +50,10 @@
         <tr>
           <td class="student">
             <span class="count">{{ forloop.counter }}. </span>
-            {{ student.student.last_name }} {{ student.student.first_name }}
+            <a href="{% url 'student' student.student.id %}">{{ student.student.last_name }} {{ student.student.first_name }}</a>
+            <!-- {% if forloop.counter == 4 %}
+              <i class="fa fa-star" aria-hidden="true"></i>
+            {% endif %} -->
           </td>
           <td class="progress_score">{{ student.progress_overall }}</td>
           {% if not progress_data.subjects.credit %}
